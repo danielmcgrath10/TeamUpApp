@@ -15,21 +15,21 @@ export default class HomeScreen extends Component {
                     <TouchableOpacity style={styles.footerButton}>
                         <View >
                             <Text>
-                                blah
+                                Insert Search Icon
                             </Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.footerButton}>
                         <View >
                             <Text>
-                                blah
+                                Insert Add Icon 
                             </Text>
                         </View>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.footerButton}>
                         <View >
                             <Text>
-                                blah
+                                Insert Invite Icon
                             </Text>
                         </View>
                     </TouchableOpacity>
