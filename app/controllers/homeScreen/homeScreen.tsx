@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {createStackNavigator, createAppContainer} from 'react-navigation';
+import AddGroup from '../addGroup/addGroupController';
 
-
-export default class HomeScreen extends Component {
+export class HomeScreen extends Component {
     render() {
         return(
             <View style={styles.container}>
@@ -19,7 +20,12 @@ export default class HomeScreen extends Component {
                             </Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.footerButton}>
+                    <TouchableOpacity 
+                        style={styles.footerButton}
+                        onPress = {() => 
+                            this.props.navigation.navigate('AddGroup')
+                        }
+                    >
                         <View >
                             <Text>
                                 Insert Add Icon 
@@ -66,3 +72,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
+
+const HomeScreenNavigator = createStackNavigator({
+    AddGroup: {screen: AddGroup}
+});
+export default createAppContainer(HomeScreenNavigator);
