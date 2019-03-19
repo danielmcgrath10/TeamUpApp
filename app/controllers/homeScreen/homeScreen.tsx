@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
-import AddGroup from '../addGroup/addGroupController';
 
-export class HomeScreen extends Component {
+export default class HomeScreen extends React.Component {
     render() {
         return(
             <View style={styles.container}>
@@ -11,34 +10,6 @@ export class HomeScreen extends Component {
                     <Text style={{justifyContent: 'center'}}>
                         Insert Map in this view
                     </Text>
-                </View>
-                <View style={styles.footerContainer}>
-                    <TouchableOpacity style={styles.footerButton}>
-                        <View >
-                            <Text>
-                                Insert Search Icon
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                        style={styles.footerButton}
-                        onPress = {() => 
-                            this.props.navigation.navigate('AddGroup')
-                        }
-                    >
-                        <View >
-                            <Text>
-                                Insert Add Icon 
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.footerButton}>
-                        <View >
-                            <Text>
-                                Insert Invite Icon
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
                 </View>
             </View>
         );
@@ -72,8 +43,3 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
-
-const HomeScreenNavigator = createStackNavigator({
-    AddGroup: {screen: AddGroup}
-});
-export default createAppContainer(HomeScreenNavigator);

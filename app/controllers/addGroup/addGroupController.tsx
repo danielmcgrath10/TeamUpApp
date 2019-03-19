@@ -6,7 +6,7 @@ export default class AddGroup extends Component {
         return(
             <View>
                 <Text>
-                    Hello World
+                    What is Love
                 </Text>
             </View> 
         )
