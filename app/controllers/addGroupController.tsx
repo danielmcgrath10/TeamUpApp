@@ -68,7 +68,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
                 </View>
 
                 <View style={styles.textBox}>
-                    <Text>
+                    <Text style={{color: 'black'}}>
                         Please Input a Location:
                     </Text>
                 </View>
@@ -81,7 +81,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
                             }}
                        >
                             <View style={styles.ButtonStyles}>
-                                <Text>
+                                <Text style={{color: 'black'}}>
                                     Use Current
                                 </Text>
                             </View>
@@ -94,7 +94,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
                         }}
                     >
                         <View style={styles.ButtonStyles}>
-                            <Text>
+                            <Text style={{color: 'black'}}>
                                 Choose From a Map
                             </Text>
                         </View>  
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     ButtonContainer: {
         flex: 2,
         flexDirection: 'row',
-        maxHeight: 40,
+        maxHeight: 60,
         justifyContent: 'space-evenly'
     },
     ButtonStyles: {
@@ -138,6 +138,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: 'lightgrey',
-        borderWidth: 0.5
+        borderWidth: 1
     }
 })
