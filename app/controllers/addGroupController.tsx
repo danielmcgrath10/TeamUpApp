@@ -1,49 +1,69 @@
 import React, {Component} from 'react';
 import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity} from 'react-native';
 
+type propValues = {
+    SportChoice: string,
+    DifficultyLevel: string
+    NumPeople: number
+}
 
-export default class AddGroup extends React.Component {
-    // constructor(props) {
-    //     super(props);
-    //     this.state.SportChoice = 'Default Value';
-    // }
+type stateValues ={
+    SportChoice: string,
+    DifficultyLevel: string
+    NumPeople: number
+}
+export default class AddGroup extends Component<propValues, stateValues> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            SportChoice: 'Choose a Sport',
+            DifficultyLevel: 'Choose a Difficulty',
+            NumPeople: 0
+        };
+    }
+
     render() {
         return(
             <View style={styles.container}>
                 <View style={styles.picker}>
                     <Picker
-                        selectedValue = 'Choose a Sport'
-                        onValueChange={(PickerItem) => {
-                            //this.setState(this.props.SportChoice, PickerItem.label)
-                            console.log('You chose:' + PickerItem.label)
+                        selectedValue = {this.state.SportChoice}
+                        onValueChange={(itemValue) => {
+                            this.setState({SportChoice: itemValue});
                         }}
                     >
-                        <PickerItem label='Choose a Sport' value='Default Value' />
-                        <PickerItem label="hey" value='pick1'/>
-                        <PickerItem label="there" value='pick2'/>
-                        <PickerItem label="judge" value='pick3'/>
+                        <Picker.Item label='Choose a Sport' value='Default Value' />
+                        <Picker.Item label="Soccer" value='Soccer'/>
+                        <Picker.Item label="Hockey" value='Hockey'/>
+                        <Picker.Item label="Running" value='Running'/>
                     </Picker>
                 </View>
                 
                 <View style={styles.picker}>
                     <Picker
-                        selectedValue = "Choose a Difficulty"
+                        selectedValue = {this.state.DifficultyLevel}
+                        onValueChange={(itemValue) => {
+                            this.setState({DifficultyLevel: itemValue});
+                        }}
                     >
-                         <PickerItem label='Choose a Difficulty' value='Default Value' />
-                        <PickerItem label="hey" value='pick1'/>
-                        <PickerItem label="there" value='pick2'/>
-                        <PickerItem label="judge" value='pick3'/>
+                        <Picker.Item label='Choose a Difficulty' value='none' />
+                        <Picker.Item label="Beginner" value='Beginner'/>
+                        <Picker.Item label="Intermediate" value='Intermediate'/>
+                        <Picker.Item label="Advanced" value='Advanced'/>
                     </Picker>
                 </View>
 
                 <View style={styles.picker}>
                     <Picker
-                        selectedValue = "Choose Number of People Needed"
+                        selectedValue = {this.state.NumPeople}
+                        onValueChange={(itemValue) => {
+                            this.setState({NumPeople: itemValue});
+                        }}
                     >
-                        <PickerItem label='Choose Number of People Needed' value='Default Value' />
-                        <PickerItem label="hey" value='pick1'/>
-                        <PickerItem label="there" value='pick2'/>
-                        <PickerItem label="judge" value='pick3'/>
+                        <Picker.Item label='Choose Number of People Needed' value='0' />
+                        <Picker.Item label="1" value='1'/>
+                        <Picker.Item label='2' value='2'/>
+                        <Picker.Item label="3" value='3'/>
                     </Picker>
                 </View>
 
