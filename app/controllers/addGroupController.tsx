@@ -3,8 +3,8 @@ import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity} fr
 
 type propValues = {
     SportChoice: string,
-    DifficultyLevel: string
-    NumPeople: number
+    DifficultyLevel: string,
+    NumPeople: number,
 }
 
 type stateValues ={
