@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity} from 'react-native';
+import { Header } from 'react-native-elements';
 
 type propValues = {
     SportChoice: string,
@@ -25,6 +26,11 @@ export default class AddGroup extends Component<propValues, stateValues> {
     render() {
         return(
             <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>
+                        Game Creation
+                    </Text>
+                </View>
                 <View style={styles.picker}>
                     <Picker
                         selectedValue = {this.state.SportChoice}
@@ -100,7 +106,6 @@ export default class AddGroup extends Component<propValues, stateValues> {
                         </View>  
                     </TouchableOpacity>    
                 </View>
-
             </View> 
         )
     }
@@ -111,7 +116,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        justifyContent: 'flex-start'
+        justifyContent: 'flex-start',
+        bottom: 0,
     },
     picker: {
         flex: 1,
@@ -139,5 +145,34 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderColor: 'lightgrey',
         borderWidth: 1
+    },
+    header: {
+        height: 60,
+        width: '100%',
+        backgroundColor: 'black',
+    },
+    headerText: {
+        fontSize: 25,
+        color: 'white',
+        textShadowColor: '#FFDD03',
+        textShadowOffset: {width: 5, height: 5},
+        borderWidth: 0.5,
+        alignSelf: 'center',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+    },
+    footer: {
+        bottom: 5,
+        alignSelf: 'center',
+        height: 20,
+        width: '100%',
+    },
+    submitButton: {
+        width: '100%',
+        height: 10,
+        borderRadius: 5,
+        borderColor: 'darkgrey',
+        borderWidth: 1,
+
     }
 })

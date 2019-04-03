@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
+import {Header} from 'react-native-elements';
 
 export default class HomeScreen extends React.Component {
     render() {
         return(
             <View style={styles.container}>
+                <View>
+                    <View style={styles.header}/>
+                    <TouchableOpacity style={styles.fabButton}>
+                        <View >
+                        </View>
+                    </TouchableOpacity>
+                </View>
+                
                 <View style={styles.mapContainer}>
                     <Text style={{justifyContent: 'center'}}>
                         Insert Map in this view
@@ -41,5 +50,24 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    header: {
+        backgroundColor: 'grey',
+        height: 50,
+        width: '100%',
+        borderBottomColor: 'darkgrey',
+        opacity: 0.5,
+    },
+    fabButton: {
+        height: 70,
+        width: 70,
+        borderRadius: 15,
+        borderColor: 'darkgrey',
+        borderWidth: 1,
+        backgroundColor: 'white',
+        position: 'absolute',
+        top: 20,
+        alignSelf: 'center',
     }
+
 })
