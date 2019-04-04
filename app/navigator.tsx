@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+
 import HomeScreen from './controllers/homeScreen';
 import AddGroup from './controllers/addGroupController';
 import SearchScreen from './controllers/searchController';
+import groupsController from './controllers/groupsController';
+
 import {createAppContainer, createBottomTabNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -23,12 +26,12 @@ const TabNavigator = createBottomTabNavigator({
       )
     }
   },
-  AddGroup: {
-    screen: AddGroup,
+  Groups: {
+    screen: groupsController,
     navigationOptions: {
-      tabBarLabel: 'Create Group',
+      tabBarLabel: 'Your Groups',
       tabBarIcon: ({tintColor}) => (
-        <Icon name='ios-add' size={22} />
+        <Icon name='ios-contacts' size={24}/>
       )
     }
   }

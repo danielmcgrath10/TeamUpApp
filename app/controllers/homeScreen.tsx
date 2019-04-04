@@ -57,6 +57,8 @@ const styles = StyleSheet.create({
         width: '100%',
         borderBottomColor: 'darkgrey',
         opacity: 0.5,
+        position: 'absolute',
+        top: 0,
     },
     fabButton: {
         height: 70,
