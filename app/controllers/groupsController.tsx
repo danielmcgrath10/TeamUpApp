@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import {Header, ButtonGroup} from 'react-native-elements';
 import Icon  from 'react-native-vector-icons/Ionicons';
+import { Group } from '../shared/groups/group';
+
+type Props = {
+    activeGroups: Group[]
+    requested: Group[]
+}
 
 type MyState = {
     selectedIndex: number
