@@ -9,5 +9,6 @@ export type Group = {
     },
     skillLevel?: string,
     openSpots: number,
-    playingCurrently: string[]
+    playingCurrently: string[],
+    message?: string,
 }

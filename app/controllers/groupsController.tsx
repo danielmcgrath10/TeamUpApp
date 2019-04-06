@@ -33,13 +33,22 @@ export default class groupsController extends React.Component<{}, MyState> {
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
-                   <ButtonGroup
+                    <TouchableOpacity style={styles.addIcon}>
+                        <Icon 
+                            name="ios-add"
+                            size = {35}
+                            
+                        />
+                    </TouchableOpacity>
+                    
+                </View>
+                    <ButtonGroup
                         onPress={this.updateButtonIndex}
                         selectedIndex={selectedIndex}
                         buttons={buttons}
                         containerStyle={styles.buttonGroup}
                     /> 
-                </View>
+
             </View>
         );
     }
@@ -59,12 +68,14 @@ const styles = StyleSheet.create({
     },
     buttonGroup: {
         alignSelf: 'center',
-        height: 30,
+        height: 25,
         width: '60%',
+        marginTop: 2,
+    },
+    addIcon: {
         marginTop: 'auto',
         marginBottom: 'auto',
-    },
-    iconStyles: {
-        
+        marginRight: 20,
+        alignSelf: 'flex-end',
     }
 })
