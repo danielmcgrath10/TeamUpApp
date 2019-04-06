@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
 import {Header, ButtonGroup} from 'react-native-elements';
 import Icon  from 'react-native-vector-icons/Ionicons';
-import { Group } from '../shared/groups/group';
+import { Group } from '../../shared/groups/group';
 
 type Props = {
     activeGroups: Group[]
@@ -33,6 +33,9 @@ export default class groupsController extends React.Component<{}, MyState> {
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
+                    <Text>
+                        
+                    </Text>
                     <TouchableOpacity style={styles.addIcon}>
                         <Icon 
                             name="ios-add"
@@ -61,10 +64,11 @@ const styles = StyleSheet.create({
     },
     header: {
         flex: 1,
-        backgroundColor: 'grey',
+        backgroundColor: 'white',
         maxHeight: 50,
         width: '100%',
         borderBottomColor: 'darkgrey',
+        marginBottom: 2,
     },
     buttonGroup: {
         alignSelf: 'center',

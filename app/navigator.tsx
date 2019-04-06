@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import HomeScreen from './controllers/homeScreen';
-import AddGroup from './controllers/addGroupController';
-import SearchScreen from './controllers/searchController';
-import groupsController from './controllers/groupsController';
+import HomeScreen from './controllers/homeScreen/homeScreen';
+import AddGroup from './controllers/addGroup/addGroupController';
+import SearchScreen from './controllers/search/searchController';
+import groupsController from './controllers/groups/groupsController';
 
 import {createAppContainer, createBottomTabNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
