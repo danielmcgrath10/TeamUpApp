@@ -10,32 +10,25 @@ type Props = {
 }
 
 type MyState = {
-    selectedIndex: number
 }
 
 export default class groupsController extends React.Component<{}, MyState> {
     constructor(props) {
         super(props);
         this.state = {
-            selectedIndex: 0
         };
-
-        this.updateButtonIndex = this.updateButtonIndex.bind(this);
-    }
-
-    updateButtonIndex(selectedIndex: number) {
-        this.setState({selectedIndex})
     }
 
     render() {
-        const buttons = ['Active Groups', 'Requested'];
-        const {selectedIndex} = this.state;
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text>
-                        
-                    </Text>
+                    <View style={styles.headerTextContainer}>
+                        <Text style={styles.headerText}>
+                            Group Activity
+                        </Text>
+                    </View>
+                    
                     <TouchableOpacity style={styles.addIcon}>
                         <Icon 
                             name="ios-add"
@@ -45,12 +38,6 @@ export default class groupsController extends React.Component<{}, MyState> {
                     </TouchableOpacity>
                     
                 </View>
-                    <ButtonGroup
-                        onPress={this.updateButtonIndex}
-                        selectedIndex={selectedIndex}
-                        buttons={buttons}
-                        containerStyle={styles.buttonGroup}
-                    /> 
 
             </View>
         );
@@ -64,9 +51,11 @@ const styles = StyleSheet.create({
     },
     header: {
         flex: 1,
+        flexDirection: 'row',
         backgroundColor: 'white',
-        maxHeight: 50,
+        maxHeight: 55,
         width: '100%',
+        borderBottomWidth: 2,
         borderBottomColor: 'darkgrey',
         marginBottom: 2,
     },
@@ -77,9 +66,17 @@ const styles = StyleSheet.create({
         marginTop: 2,
     },
     addIcon: {
+        position: 'absolute',
+        right: 20,
+        top: 10,
+    },
+    headerTextContainer: {
+        marginRight: 'auto',
+        marginLeft: 'auto',
         marginTop: 'auto',
         marginBottom: 'auto',
-        marginRight: 20,
-        alignSelf: 'flex-end',
+    },
+    headerText: {
+        fontSize: 20,
     }
 })
