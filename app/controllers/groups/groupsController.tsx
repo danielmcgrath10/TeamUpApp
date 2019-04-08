@@ -4,20 +4,15 @@ import {Header, ButtonGroup} from 'react-native-elements';
 import Icon  from 'react-native-vector-icons/Ionicons';
 import { Group } from '../../shared/groups/group';
 
-type Props = {
-    activeGroups: Group[]
-    requested: Group[]
-}
+// type Props = {
+//     activeGroups: Group[]
+//     requested: Group[]
+// }
 
-type MyState = {
-}
+// type MyState = {
+// }
 
-export default class groupsController extends React.Component<{}, MyState> {
-    constructor(props) {
-        super(props);
-        this.state = {
-        };
-    }
+export default class groupsController extends React.Component {
 
     render() {
         return(
@@ -29,11 +24,13 @@ export default class groupsController extends React.Component<{}, MyState> {
                         </Text>
                     </View>
                     
-                    <TouchableOpacity style={styles.addIcon}>
+                    <TouchableOpacity 
+                        style={styles.addIcon}
+                        onPress={() => this.props.navigation.navigate('addGroup')}    
+                    >
                         <Icon 
                             name="ios-add"
                             size = {35}
-                            
                         />
                     </TouchableOpacity>
                     
@@ -59,12 +56,6 @@ const styles = StyleSheet.create({
         borderBottomColor: 'darkgrey',
         marginBottom: 2,
     },
-    buttonGroup: {
-        alignSelf: 'center',
-        height: 25,
-        width: '60%',
-        marginTop: 2,
-    },
     addIcon: {
         position: 'absolute',
         right: 20,
@@ -77,6 +68,6 @@ const styles = StyleSheet.create({
         marginBottom: 'auto',
     },
     headerText: {
-        fontSize: 20,
+        fontSize: 25,
     }
 })

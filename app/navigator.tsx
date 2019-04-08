@@ -5,8 +5,21 @@ import AddGroup from './controllers/addGroup/addGroupController';
 import SearchScreen from './controllers/search/searchController';
 import groupsController from './controllers/groups/groupsController';
 
-import {createAppContainer, createBottomTabNavigator} from 'react-navigation';
+import {createAppContainer, createBottomTabNavigator, createStackNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+const groupStack = createStackNavigator({
+  groupsController: {
+    screen: groupsController,
+  },
+  addGroup: {
+    screen: AddGroup,
+  },
+}, {
+  initialRouteName: 'groupsController',
+  headerMode: 'none',
+})
+
 
 const TabNavigator = createBottomTabNavigator({
   Search: {
@@ -27,7 +40,7 @@ const TabNavigator = createBottomTabNavigator({
     }
   },
   Groups: {
-    screen: groupsController,
+    screen: groupStack,
     navigationOptions: {
       tabBarLabel: 'Your Groups',
       tabBarIcon: ({tintColor}) => (
