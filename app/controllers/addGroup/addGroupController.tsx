@@ -194,6 +194,6 @@ const styles = StyleSheet.create({
     },
     headerCancel: {
         color: 'white',
-        fontSize: 15,
+        fontSize: 19,
     }
 })

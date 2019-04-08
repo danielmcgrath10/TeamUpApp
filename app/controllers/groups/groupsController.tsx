@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
         marginBottom: 'auto',
     },
     headerText: {
-        fontSize: 20,
+        fontSize: 25,
     }
 })
