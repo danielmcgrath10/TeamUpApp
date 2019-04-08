@@ -27,9 +27,20 @@ export default class AddGroup extends Component<propValues, stateValues> {
         return(
             <View style={styles.container}>
                 <View style={styles.header}>
-                    <Text style={styles.headerText}>
-                        Game Creation
-                    </Text>
+                    <TouchableOpacity 
+                        style = {styles.cancelButton}
+                        onPress={() => this.props.navigation.goBack()}
+                    >
+                        <Text style={styles.headerCancel}>
+                            Cancel
+                        </Text>
+                    </TouchableOpacity>
+                    <View style={styles.headerLogo}>
+                        <Text style={styles.headerText}>
+                            Create
+                        </Text>
+                    </View>
+                    
                 </View>
                 <View style={styles.picker}>
                     <Picker
@@ -148,18 +159,14 @@ const styles = StyleSheet.create({
     },
     header: {
         height: 60,
+        flexDirection: 'row',
         width: '100%',
         backgroundColor: 'black',
     },
     headerText: {
         fontSize: 25,
         color: 'white',
-        textShadowColor: '#FFDD03',
-        textShadowOffset: {width: 5, height: 5},
-        borderWidth: 0.5,
-        alignSelf: 'center',
-        marginTop: 'auto',
-        marginBottom: 'auto',
+        textShadowColor: '#FFDD03',  
     },
     footer: {
         bottom: 5,
@@ -173,6 +180,20 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderColor: 'darkgrey',
         borderWidth: 1,
-
+    },
+    headerLogo: {
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        marginTop: 'auto',
+        marginBottom: 'auto',
+    },
+    cancelButton: {
+        position: 'absolute',
+        left: 20,
+        top: 20,
+    },
+    headerCancel: {
+        color: 'white',
+        fontSize: 15,
     }
 })
