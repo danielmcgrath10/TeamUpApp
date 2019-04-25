@@ -85,14 +85,14 @@ export default class AddGroup extends Component<propValues, stateValues> {
                 </View>
 
                 <View style={styles.textBox}>
-                    <Text style={{color: 'black'}}>
+                    <Text style={{color: 'black', alignSelf: 'center'}}>
                         Please Input a Location:
                     </Text>
                 </View>
+
                 <View style={styles.ButtonContainer}>
-                    
                        <TouchableOpacity
-                            style = {{flex: 1}}
+                            style = {{flex: 1, height: 50}}
                             onPress={() => {
                                 console.log("you pressed use current")
                             }}
@@ -105,7 +105,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
                        </TouchableOpacity>
 
                     <TouchableOpacity 
-                        style={{flex:1}}
+                        style={{flex:1, height: 50}}
                         onPress={()=>{
                         console.log('You Pressed Choose from map')
                         }}
@@ -115,8 +115,21 @@ export default class AddGroup extends Component<propValues, stateValues> {
                                 Choose From a Map
                             </Text>
                         </View>  
-                    </TouchableOpacity>    
+                    </TouchableOpacity>
+                        
                 </View>
+                <TouchableOpacity
+                    style={styles.submitButtonContainer}
+                    onPress={() => {
+                        console.log('Hello');
+                    }}
+                >
+                    <View style={styles.submitButtonView}>
+                        <Text style={styles.submitButtonText}>
+                            CREATE
+                        </Text>  
+                    </View>       
+                </TouchableOpacity>
             </View> 
         )
     }
@@ -140,33 +153,54 @@ const styles = StyleSheet.create({
     textBox: {
         flex: 1,
         justifyContent: 'center',
-        maxHeight: 50,
+        maxHeight: 60,
         paddingLeft: 10
     },
     ButtonContainer: {
         flex: 2,
         flexDirection: 'row',
-        maxHeight: 60,
+        height: 60,
         justifyContent: 'space-evenly'
     },
     ButtonStyles: {
         padding: 10,
+        height: 60,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: 'lightgrey',
         borderWidth: 1
     },
+    submitButtonContainer: {
+        alignSelf: 'baseline',
+        marginRight: 'auto',
+        marginLeft: 'auto',
+        marginBottom: 10,
+        width: '90%',
+    },
+    submitButtonView: {
+        backgroundColor: 'lightgrey',
+        height: 40,
+        borderRadius: 10,
+        justifyContent: 'center',
+    },
+    submitButtonText: {
+        alignSelf: 'center',
+        fontSize: 20,
+        color: 'white',
+    },
+
+
     header: {
         height: 60,
         flexDirection: 'row',
         width: '100%',
-        backgroundColor: 'black',
+        backgroundColor: 'white',
+        borderBottomColor: 'darkgrey',
+        borderBottomWidth: 2,
     },
     headerText: {
-        fontSize: 25,
-        color: 'white',
-        textShadowColor: '#FFDD03',  
+        fontSize: 25,  
     },
     footer: {
         bottom: 5,
@@ -193,7 +227,6 @@ const styles = StyleSheet.create({
         top: 20,
     },
     headerCancel: {
-        color: 'white',
         fontSize: 19,
-    }
+    }    
 })
