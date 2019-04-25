@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity} from 'react-native';
-import { Header } from 'react-native-elements';
+import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
+import { Header, Input } from 'react-native-elements';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 type propValues = {
     SportChoice: string,
@@ -25,7 +26,9 @@ export default class AddGroup extends Component<propValues, stateValues> {
 
     render() {
         return(
-            <View style={styles.container}>
+            <KeyboardAwareScrollView 
+                contentContainerStyle={styles.container}   
+            >
                 <View style={styles.header}>
                     <TouchableOpacity 
                         style = {styles.cancelButton}
@@ -118,6 +121,12 @@ export default class AddGroup extends Component<propValues, stateValues> {
                     </TouchableOpacity>
                         
                 </View>
+                <View style={{flex:5, borderColor: 'lightgrey', borderWidth: 2, margin: 10, marginTop: 0}}>
+                    <TextInput
+                        placeholder={'Add Notes Here'}
+                        multiline = {true}
+                    />
+                </View>
                 <TouchableOpacity
                     style={styles.submitButtonContainer}
                     onPress={() => {
@@ -130,7 +139,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
                         </Text>  
                     </View>       
                 </TouchableOpacity>
-            </View> 
+            </KeyboardAwareScrollView> 
         )
     }
     
@@ -147,8 +156,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         borderColor: 'lightgrey',
-        borderBottomWidth: 1,
+        borderWidth: 1,
         maxHeight: 60,
+        margin: 5,
     },
     textBox: {
         flex: 1,
@@ -166,6 +176,7 @@ const styles = StyleSheet.create({
         padding: 10,
         height: 60,
         flex: 1,
+        margin: 5,
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: 'lightgrey',
