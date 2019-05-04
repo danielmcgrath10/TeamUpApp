@@ -8,6 +8,7 @@ import ProfileScreen from './controllers/profile/profileScreen';
 
 import {createAppContainer, createBottomTabNavigator, createStackNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
+import GroupDetailScreen from './controllers/groupDetail/groupDetail';
 
 const groupStack = createStackNavigator({
   groupsController: {
@@ -16,6 +17,9 @@ const groupStack = createStackNavigator({
   addGroup: {
     screen: AddGroup,
   },
+  groupDetail: {
+    screen: GroupDetailScreen
+  }
 }, {
   initialRouteName: 'groupsController',
   headerMode: 'none',
@@ -27,6 +31,9 @@ const homeStack = createStackNavigator({
   },
   profileScreen: {
     screen: ProfileScreen
+  },
+  groupDetail: {
+    screen: GroupDetailScreen
   }
 }, {
   initialRouteName: 'homeScreen',
