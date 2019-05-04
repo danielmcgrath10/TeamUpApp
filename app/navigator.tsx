@@ -4,6 +4,7 @@ import HomeScreen from './controllers/homeScreen/homeScreen';
 import AddGroup from './controllers/addGroup/addGroupController';
 import SearchScreen from './controllers/search/searchController';
 import groupsController from './controllers/groups/groupsController';
+import ProfileScreen from './controllers/profile/profileScreen';
 
 import {createAppContainer, createBottomTabNavigator, createStackNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -20,6 +21,18 @@ const groupStack = createStackNavigator({
   headerMode: 'none',
 })
 
+const homeStack = createStackNavigator({
+  homeScreen: {
+    screen: HomeScreen
+  },
+  profileScreen: {
+    screen: ProfileScreen
+  }
+}, {
+  initialRouteName: 'homeScreen',
+  headerMode: "none"
+})
+
 
 const TabNavigator = createBottomTabNavigator({
   Search: {
@@ -32,7 +45,7 @@ const TabNavigator = createBottomTabNavigator({
     }
   },
   Home: {
-    screen: HomeScreen,
+    screen: homeStack,
     navigationOptions: {
       tabBarIcon: ({tintColor}) => (
         <Icon name="ios-home" size={22} />      

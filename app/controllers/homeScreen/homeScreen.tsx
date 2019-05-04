@@ -9,7 +9,11 @@ export default class HomeScreen extends React.Component {
             <View style={styles.container}>
                 <View>
                     <View style={styles.header}/>
-                    <TouchableOpacity style={styles.fabButton}>
+                    <TouchableOpacity style={styles.fabButton}
+                        onPress= {() => {
+                            this.props.navigation.navigate('profileScreen');
+                        }}
+                    >
                         <View >
                         </View>
                     </TouchableOpacity>

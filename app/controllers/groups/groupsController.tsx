@@ -10,7 +10,7 @@ import { Group } from '../../shared/groups/group';
 // }
 
 type groupState = {
-    activeGroups: Object[]
+    activeGroups: Group[]
 }
 
 export default class groupsController extends React.Component<{}, groupState> {
