@@ -5,6 +5,7 @@ import AddGroup from './controllers/addGroup/addGroupController';
 import SearchScreen from './controllers/search/searchController';
 import groupsController from './controllers/groups/groupsController';
 import ProfileScreen from './controllers/profile/profileScreen';
+import SettingsScreen from './controllers/settings/settingsScreen';
 
 import {createAppContainer, createBottomTabNavigator, createStackNavigator} from 'react-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -25,12 +26,24 @@ const groupStack = createStackNavigator({
   headerMode: 'none',
 })
 
+const profileStack = createStackNavigator({
+  profileScreen: {
+    screen: ProfileScreen
+  },
+  settings: {
+    screen: SettingsScreen
+  }
+}, {
+  initialRouteName: 'profileScreen',
+  headerMode: 'none'
+})
+
 const homeStack = createStackNavigator({
   homeScreen: {
     screen: HomeScreen
   },
   profileScreen: {
-    screen: ProfileScreen
+    screen: profileStack
   },
   groupDetail: {
     screen: GroupDetailScreen
@@ -39,7 +52,6 @@ const homeStack = createStackNavigator({
   initialRouteName: 'homeScreen',
   headerMode: "none"
 })
-
 
 const TabNavigator = createBottomTabNavigator({
   Search: {
