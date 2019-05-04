@@ -6,7 +6,7 @@ export default class GroupDetailScreen extends Component {
         return (
             <View>
                 <Text>
-                    Profile Screen
+                    Group Detail Screen
                 </Text>
             </View>
         )
