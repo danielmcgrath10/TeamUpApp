@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
 import { Header, Input } from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {sportList} from '../../shared/sportlist/sportList';
 
 type propValues = {
     SportChoice: string,
@@ -22,6 +23,35 @@ export default class AddGroup extends Component<propValues, stateValues> {
             DifficultyLevel: 'Choose a Difficulty',
             NumPeople: 0
         };
+    }
+
+    populateSportsDropdown(): Object[] {
+        let pickerList = [];
+        sportList.sort().forEach(sport => {
+            pickerList.push(
+                <Picker.Item
+                    label = {sport}
+                    value = {sport}
+                />
+            )    
+        });
+        return pickerList;
+    }
+
+    populateNumPeopleDropdown(): Object[] {
+        let pickerList = [];
+        let num = 0;
+        let desNum = 30;
+        while (num < desNum) {
+            pickerList.push(
+                <Picker.Item
+                    label= {num.toString()}
+                    value={num.toString()}
+                />
+            );
+            num = num + 1;
+        }
+        return pickerList;
     }
 
     render() {
@@ -53,9 +83,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
                         }}
                     >
                         <Picker.Item label='Choose a Sport' value='Default Value' />
-                        <Picker.Item label="Soccer" value='Soccer'/>
-                        <Picker.Item label="Hockey" value='Hockey'/>
-                        <Picker.Item label="Running" value='Running'/>
+                        {this.populateSportsDropdown()}
                     </Picker>
                 </View>
                 
@@ -81,9 +109,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
                         }}
                     >
                         <Picker.Item label='Choose Number of People Needed' value='0' />
-                        <Picker.Item label="1" value='1'/>
-                        <Picker.Item label='2' value='2'/>
-                        <Picker.Item label="3" value='3'/>
+                        {this.populateNumPeopleDropdown()}
                     </Picker>
                 </View>
 
