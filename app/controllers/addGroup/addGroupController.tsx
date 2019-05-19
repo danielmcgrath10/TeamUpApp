@@ -156,7 +156,9 @@ export default class AddGroup extends Component<propValues, stateValues> {
                 <TouchableOpacity
                     style={styles.submitButtonContainer}
                     onPress={() => {
+                        //TODO: This is where you can input logic to pass the json to firestore
                         console.log('Hello');
+                        this.props.navigation.goBack(); //TODO: throw this in the returned confirmation logic if the addition is successful
                     }}
                 >
                     <View style={styles.submitButtonView}>
