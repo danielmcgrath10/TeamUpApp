@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import HomeScreen from './controllers/homeScreen/homeScreen';
-import {createStackNavigator, createAppContainer} from 'react-navigation';
-
-const AppNavigator = createStackNavigator({
-  Home: {
-    screen: HomeScreen,
+import AddGroup from './controllers/addGroup/addGroupController';
+import TabNavigator from './navigator';
+class App extends React.Component {
+  render() {
+    return(
+      <TabNavigator />
+    );
   }
-}, {
-    initialRouteName: 'Home',
-});
-
-export default createAppContainer(AppNavigator);
+}
+export default App;
