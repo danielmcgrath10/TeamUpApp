@@ -30,6 +30,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
         sportList.sort().forEach(sport => {
             pickerList.push(
                 <Picker.Item
+                    key={sport}
                     label = {sport}
                     value = {sport}
                 />
@@ -45,6 +46,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
         while (num < desNum) {
             pickerList.push(
                 <Picker.Item
+                    key={num}
                     label= {num.toString()}
                     value={num.toString()}
                 />
@@ -112,36 +114,29 @@ export default class AddGroup extends Component<propValues, stateValues> {
                         {this.populateNumPeopleDropdown()}
                     </Picker>
                 </View>
-
-                <View style={styles.textBox}>
-                    <Text style={{color: 'black', alignSelf: 'center'}}>
-                        Please Input a Location:
-                    </Text>
-                </View>
-
                 <View style={styles.ButtonContainer}>
                        <TouchableOpacity
-                            style = {{flex: 1, height: 50}}
+                            style = {{flex: 1, height: 60}}
                             onPress={() => {
                                 console.log("you pressed use current")
                             }}
                        >
                             <View style={styles.ButtonStyles}>
                                 <Text style={{color: 'black'}}>
-                                    Use Current
+                                    Use Current Location
                                 </Text>
                             </View>
                        </TouchableOpacity>
 
                     <TouchableOpacity 
-                        style={{flex:1, height: 50}}
+                        style={{flex:1, height: 60}}
                         onPress={()=>{
                         console.log('You Pressed Choose from map')
                         }}
                     >
                         <View style={styles.ButtonStyles}>
                             <Text style={{color: 'black'}}>
-                                Choose From a Map
+                                Choose Location From Map
                             </Text>
                         </View>  
                     </TouchableOpacity>
@@ -184,7 +179,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         borderColor: 'lightgrey',
-        borderWidth: 1,
+        borderBottomWidth: 1,
         maxHeight: 60,
         margin: 5,
     },
@@ -228,7 +223,6 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white',
     },
-
 
     header: {
         height: 60,
