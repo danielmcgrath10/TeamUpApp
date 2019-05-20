@@ -30,6 +30,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
         sportList.sort().forEach(sport => {
             pickerList.push(
                 <Picker.Item
+                    key={sport}
                     label = {sport}
                     value = {sport}
                 />
@@ -45,6 +46,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
         while (num < desNum) {
             pickerList.push(
                 <Picker.Item
+                    key={num}
                     label= {num.toString()}
                     value={num.toString()}
                 />
