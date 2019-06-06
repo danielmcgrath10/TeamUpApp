@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import  Icon from 'react-native-vector-icons/Ionicons';
 
 export default class ProfileScreen extends Component {
     render() {
@@ -7,6 +8,16 @@ export default class ProfileScreen extends Component {
             <View style={styles.container}>
                 <View style={styles.upperProfile}>
                     
+                    <TouchableOpacity 
+                        style={styles.settingsButton}
+                    >
+                        <Icon
+                            name="md-settings"
+                            size={30}
+                        />
+                    </TouchableOpacity>
+                    
+
                     <TouchableOpacity style={styles.fabButton}
                         onPress= {() => {
                            console.log('Hello world');
@@ -27,6 +38,14 @@ export default class ProfileScreen extends Component {
                             <Text>
                                 Rating: 
                             </Text>
+                        </View>
+                    </View>
+                    <View style={styles.profileDescriptors}>
+                        <View style={styles.profileSummary}>
+
+                        </View>
+                        <View style={styles.profileFavSports}>
+
                         </View>
                     </View>
                 </View>
@@ -72,5 +91,22 @@ const styles = StyleSheet.create({
     },
     statBoxText: {
         
+    },
+    profileDescriptors: {
+        flex:2,
+        flexDirection: 'column'
+    },
+    profileSummary: {
+        flex: 1,
+        borderBottomWidth: 2,
+        borderBottomColor: 'lightgrey',
+    },
+    profileFavSports: {
+        flex: 1,
+    },
+    settingsButton: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
     }
 })
