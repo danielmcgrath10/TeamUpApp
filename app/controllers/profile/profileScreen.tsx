@@ -1,56 +1,148 @@
 import React, {Component} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import  Icon from 'react-native-vector-icons/Ionicons';
+import { UserProfile, MockProfile } from '../../shared/models/Mock-Profile';
 
-export default class ProfileScreen extends Component {
+type Props = {
+    profileInfo: UserProfile
+}
+type State = {
+    loading: boolean,
+    profileInfo: UserProfile
+}
+
+export default class ProfileScreen extends Component<Props, State> {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            profileInfo: MockProfile,
+        }
+    }
+
+    // componentDidMount() {
+    //     //TODO: this is a pre-built thing I made in anticipation but I knoe it needs to change.
+    //     fetch()
+    //     .then(response => response.json())
+    //     .then((responseJson) => {
+    //         this.setState({
+    //             loading: false,
+    //             profileInfo: responseJson
+    //         })
+    //     })
+    //     .catch(err => console.log(err))
+    // }
+
     render() {
+        // if(this.state.loading) {
+        //     return (
+        //         <View style={styles.loadingScreen}>
+        //             <ActivityIndicator size='large'/>
+        //         </View>
+        //     )
+        // }
+
         return (
-            <View style={styles.container}>
-                <View style={styles.upperProfile}>
-                    
-                    <TouchableOpacity 
-                        style={styles.settingsButton}
-                    >
-                        <Icon
-                            name="md-settings"
-                            size={30}
-                        />
-                    </TouchableOpacity>
-                    
+            this.state.profileInfo ?
+            (
+                <View style={styles.container}>
+                    <View style={styles.upperProfile}>
+                        
+                        <TouchableOpacity 
+                            style={styles.settingsButton}
+                        >
+                            <Icon
+                                name="md-settings"
+                                size={30}
+                            />
+                        </TouchableOpacity>
+                        
 
-                    <TouchableOpacity style={styles.fabButton}
-                        onPress= {() => {
-                           console.log('Hello world');
-                        }}
-                    >
-                        <View >
+                        <TouchableOpacity style={styles.fabButton}
+                            onPress= {() => {
+                            console.log('Hello world');
+                            }}
+                        >
+                            <View >
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.lowerProfile}>
+                        <View style={styles.profileStats}>
+                            <View style={styles.profileStatBox}>
+                                <Text>
+                                    Friends: {this.state.profileInfo.friends ? this.state.profileInfo.friends : 'None'}
+                                </Text>
+                            </View>
+                            <View style={styles.profileStatBox}>
+                                <Text>
+                                    Rating: {this.state.profileInfo.rating ? this.state.profileInfo.rating : 'No Rating to Show'}
+                                </Text>
+                            </View>
                         </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.lowerProfile}>
-                    <View style={styles.profileStats}>
-                        <View style={styles.profileStatBox}>
-                            <Text>
-                                Friends: 
-                            </Text>
-                        </View>
-                        <View style={styles.profileStatBox}>
-                            <Text>
-                                Rating: 
-                            </Text>
+                        <View style={styles.profileDescriptors}>
+                            <View style={styles.profileSummary}>
+                                {this.state.profileInfo.summary ? 
+                                    <Text style={styles.profileSummaryText}>
+                                        {this.state.profileInfo && this.state.profileInfo.summary}
+                                    </Text> :
+                                    <Text style={styles.profileSummaryText}>
+                                        No Summary to Show
+                                    </Text>
+                                }
+                            </View>
                         </View>
                     </View>
-                    <View style={styles.profileDescriptors}>
-                        <View style={styles.profileSummary}>
 
+                </View>
+            ) :
+            (
+                <View style={styles.container}>
+                    <View style={styles.upperProfile}>
+                        
+                        <TouchableOpacity 
+                            style={styles.settingsButton}
+                        >
+                            <Icon
+                                name="md-settings"
+                                size={30}
+                            />
+                        </TouchableOpacity>
+                        
+
+                        <TouchableOpacity style={styles.fabButton}
+                            onPress= {() => {
+                            console.log('Hello world');
+                            }}
+                        >
+                            <View >
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.lowerProfile}>
+                        <View style={styles.profileStats}>
+                            <View style={styles.profileStatBox}>
+                                <Text>
+                                    Friends: {'None'}
+                                </Text>
+                            </View>
+                            <View style={styles.profileStatBox}>
+                                <Text>
+                                    Rating: {'No Rating to Show'}
+                                </Text>
+                            </View>
                         </View>
-                        <View style={styles.profileFavSports}>
-
+                        <View style={styles.profileDescriptors}>
+                            <View style={styles.profileSummary}>
+                                <Text style={styles.profileSummaryText}>
+                                    No Summary to Show
+                                </Text>
+                            </View>
                         </View>
                     </View>
-                </View>
 
-            </View>
+                </View>
+            )
         )
     }
 }
@@ -61,12 +153,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
     },
     upperProfile: {
-        flex: 1,
+        flex: 2,
         backgroundColor: 'lightgrey'
     },
     fabButton: {
-        height: 110,
-        width: 110,
+        height: '75%',
+        width: '70%',
         borderRadius: 15,
         borderColor: 'darkgrey',
         borderWidth: 1,
@@ -76,7 +168,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     lowerProfile: {
-        flex: 2,
+        flex: 1,
     },
     profileStats: {
         flexDirection: 'row',
@@ -108,5 +200,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 10,
         top: 10,
+    },
+    loadingScreen: {
+        marginTop: 'auto',
+        marginBottom: 'auto',
+        marginLeft: 'auto',
+        marginRight: 'auto'
+    },
+    profileSummaryText: {
+        padding: 5,
+        alignSelf: 'center'
     }
 })
