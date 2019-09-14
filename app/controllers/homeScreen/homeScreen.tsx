@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, SafeAreaView } from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import {Header} from 'react-native-elements';
 
 export default class HomeScreen extends React.Component {
     render() {
         return(
+            <SafeAreaView style={{flex: 1}}>
             <View style={styles.container}>
                 <View>
                     <View style={styles.header}/>
@@ -25,6 +26,7 @@ export default class HomeScreen extends React.Component {
                     </Text>
                 </View>
             </View>
+            </SafeAreaView>
         );
     }
 }

@@ -1,55 +1,56 @@
 import React, {Component} from 'react';
-import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity, TextInput, KeyboardAvoidingView} from 'react-native';
+import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, ActionSheetIOS} from 'react-native';
 import { Header, Input } from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {sportList} from '../../shared/sportlist/sportList';
+import RNPickerSelect, {Item} from 'react-native-picker-select';
 
 type propValues = {
-    SportChoice: string,
-    DifficultyLevel: string,
-    NumPeople: number,
+    SportChoice: Item,
+    DifficultyLevel: Item,
+    NumPeople: Item,
 }
 
 type stateValues ={
-    SportChoice: string,
-    DifficultyLevel: string
-    NumPeople: number
+    SportChoice: Item,
+    DifficultyLevel: Item
+    NumPeople: Item
 }
 export default class AddGroup extends Component<propValues, stateValues> {
     constructor(props) {
         super(props);
         this.state = {
-            SportChoice: 'Choose a Sport',
-            DifficultyLevel: 'Choose a Difficulty',
-            NumPeople: 0
+            SportChoice: {label: 'Choose a Sport...', value: null},
+            DifficultyLevel: {label: 'Select Difficulty Level...', value: null},
+            NumPeople: {label: 'Number of People Desired...', value: null}
         };
+
+        this.populateSportsDropdown = this.populateSportsDropdown.bind(this);
     }
 
-    populateSportsDropdown(): Object[] {
+    populateSportsDropdown(): Item[] {
         let pickerList = [];
         sportList.sort().forEach(sport => {
             pickerList.push(
-                <Picker.Item
-                    key={sport}
-                    label = {sport}
-                    value = {sport}
-                />
+                {
+                    label: sport,
+                    value: sport
+                }
             )    
         });
         return pickerList;
     }
 
-    populateNumPeopleDropdown(): Object[] {
+    populateNumPeopleDropdown(): Item[] {
         let pickerList = [];
         let num = 0;
         let desNum = 30;
         while (num < desNum) {
             pickerList.push(
-                <Picker.Item
-                    key={num}
-                    label= {num.toString()}
-                    value={num.toString()}
-                />
+                {
+                    label: num.toString(),
+                    value: num.toString()
+                }
             );
             num = num + 1;
         }
@@ -58,9 +59,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
 
     render() {
         return(
-            <KeyboardAwareScrollView 
-                contentContainerStyle={styles.container}   
-            >
+            <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
                     <TouchableOpacity 
                         style = {styles.cancelButton}
@@ -75,45 +74,42 @@ export default class AddGroup extends Component<propValues, stateValues> {
                             Create
                         </Text>
                     </View>
-                    
                 </View>
                 <View style={styles.picker}>
-                    <Picker
-                        selectedValue = {this.state.SportChoice}
-                        onValueChange={(itemValue) => {
-                            this.setState({SportChoice: itemValue});
-                        }}
-                    >
-                        <Picker.Item label='Choose a Sport' value='Default Value' />
-                        {this.populateSportsDropdown()}
-                    </Picker>
+                    <RNPickerSelect
+                        onValueChange={(value) => this.setState({SportChoice: value.value})}
+                        items={this.populateSportsDropdown()}
+                        placeholder= {this.state.SportChoice}
+                    />
                 </View>
-                
                 <View style={styles.picker}>
-                    <Picker
-                        selectedValue = {this.state.DifficultyLevel}
-                        onValueChange={(itemValue) => {
-                            this.setState({DifficultyLevel: itemValue});
-                        }}
-                    >
-                        <Picker.Item label='Choose a Difficulty' value='none' />
-                        <Picker.Item label="Beginner" value='Beginner'/>
-                        <Picker.Item label="Intermediate" value='Intermediate'/>
-                        <Picker.Item label="Advanced" value='Advanced'/>
-                    </Picker>
+                    <RNPickerSelect
+                        placeholder= {this.state.DifficultyLevel}
+                        onValueChange={(value) => console.log(value)}
+                        items={[
+                            {
+                                label: 'Beginner',
+                                value: 'beginner'
+                            },
+                            {
+                                label: 'Intermediate',
+                                value: 'intermediate'
+                            },
+                            {
+                                label: 'Advanced',
+                                value: 'advanced'
+                            }
+                        ]}
+                    />
+                </View>
+                <View style={styles.picker}>
+                    <RNPickerSelect
+                        placeholder={this.state.NumPeople}
+                        onValueChange={(value) => console.log(value)}
+                        items={this.populateNumPeopleDropdown()}
+                    />
                 </View>
 
-                <View style={styles.picker}>
-                    <Picker
-                        selectedValue = {this.state.NumPeople}
-                        onValueChange={(itemValue) => {
-                            this.setState({NumPeople: itemValue});
-                        }}
-                    >
-                        <Picker.Item label='Choose Number of People Needed' value='0' />
-                        {this.populateNumPeopleDropdown()}
-                    </Picker>
-                </View>
                 <View style={styles.ButtonContainer}>
                        <TouchableOpacity
                             style = {{flex: 1, height: 60}}
@@ -136,7 +132,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
                     >
                         <View style={styles.ButtonStyles}>
                             <Text style={{color: 'black'}}>
-                                Choose Location From Map
+                                Choose From Map
                             </Text>
                         </View>  
                     </TouchableOpacity>
@@ -162,7 +158,8 @@ export default class AddGroup extends Component<propValues, stateValues> {
                         </Text>  
                     </View>       
                 </TouchableOpacity>
-            </KeyboardAwareScrollView> 
+            
+            </SafeAreaView> 
         )
     }
     

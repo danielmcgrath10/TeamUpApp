@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, SafeAreaView } from 'react-native';
 import {Header, ButtonGroup} from 'react-native-elements';
 import Icon  from 'react-native-vector-icons/Ionicons';
 import { Group } from '../../shared/groups/group';
@@ -23,6 +23,7 @@ export default class groupsController extends React.Component<{}, groupState> {
 
     render() {
         return(
+            <SafeAreaView style={{flex: 1}}>
             <View style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.headerTextContainer}>
@@ -53,6 +54,7 @@ export default class groupsController extends React.Component<{}, groupState> {
                     </View>
                 }
             </View>
+            </SafeAreaView>
         );
     }
 }
