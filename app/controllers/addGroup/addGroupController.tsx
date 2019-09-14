@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, ActionSheetIOS} from 'react-native';
+import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, ActionSheetIOS, ScrollView} from 'react-native';
 import { Header, Input } from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {sportList} from '../../shared/sportlist/sportList';
@@ -59,7 +59,9 @@ export default class AddGroup extends Component<propValues, stateValues> {
 
     render() {
         return(
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={{flex: 1}}>
+                <ScrollView contentContainerStyle={{flex:1}}>
+                <KeyboardAvoidingView style={styles.container} behavior='height'>
                 <View style={styles.header}>
                     <TouchableOpacity 
                         style = {styles.cancelButton}
@@ -77,6 +79,11 @@ export default class AddGroup extends Component<propValues, stateValues> {
                 </View>
                 <View style={styles.picker}>
                     <RNPickerSelect
+                        style={{
+                            inputIOS: {
+                                color: 'black'
+                            }
+                        }}
                         onValueChange={(value) => this.setState({SportChoice: value.value})}
                         items={this.populateSportsDropdown()}
                         placeholder= {this.state.SportChoice}
@@ -84,6 +91,11 @@ export default class AddGroup extends Component<propValues, stateValues> {
                 </View>
                 <View style={styles.picker}>
                     <RNPickerSelect
+                        style={{
+                            inputIOS: {
+                                color: 'black'
+                            }
+                        }}
                         placeholder= {this.state.DifficultyLevel}
                         onValueChange={(value) => console.log(value)}
                         items={[
@@ -104,6 +116,11 @@ export default class AddGroup extends Component<propValues, stateValues> {
                 </View>
                 <View style={styles.picker}>
                     <RNPickerSelect
+                        style={{
+                            inputIOS: {
+                                color: 'black'
+                            }
+                        }}
                         placeholder={this.state.NumPeople}
                         onValueChange={(value) => console.log(value)}
                         items={this.populateNumPeopleDropdown()}
@@ -158,7 +175,9 @@ export default class AddGroup extends Component<propValues, stateValues> {
                         </Text>  
                     </View>       
                 </TouchableOpacity>
-            
+                
+                </KeyboardAvoidingView>
+                </ScrollView>
             </SafeAreaView> 
         )
     }
