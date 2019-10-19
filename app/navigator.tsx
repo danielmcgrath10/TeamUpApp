@@ -81,6 +81,11 @@ const TabNavigator = createBottomTabNavigator({
     }
   }
 }, {
-    initialRouteName: 'Home'
+    initialRouteName: 'Home',
+    tabBarOptions: {
+      style: {
+        backgroundColor: '#f5f5f6'
+      }
+    }
 });
 export default createAppContainer(TabNavigator);

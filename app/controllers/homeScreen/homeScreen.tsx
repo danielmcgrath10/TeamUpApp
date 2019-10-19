@@ -1,31 +1,25 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button, SafeAreaView } from 'react-native';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
-import {Header} from 'react-native-elements';
 
 export default class HomeScreen extends React.Component {
     render() {
         return(
             <SafeAreaView style={{flex: 1}}>
-            <View style={styles.container}>
-                <View>
+                <View style={styles.container}>
                     <View style={styles.header}/>
-                    <TouchableOpacity style={styles.fabButton}
-                        onPress= {() => {
-                            this.props.navigation.navigate('profileScreen');
-                        }}
-                    >
-                        <View >
-                        </View>
-                    </TouchableOpacity>
+                        <TouchableOpacity style={styles.fabButton}
+                            onPress= {() => {
+                                this.props.navigation.navigate('profileScreen');
+                            }}
+                        />
+                    
+                    <View style={styles.mapContainer}>
+                        <Text style={{justifyContent: 'center'}}>
+                            Insert Map in this view
+                        </Text>
+                    </View>
                 </View>
-                
-                <View style={styles.mapContainer}>
-                    <Text style={{justifyContent: 'center'}}>
-                        Insert Map in this view
-                    </Text>
-                </View>
-            </View>
             </SafeAreaView>
         );
     }
@@ -39,7 +33,7 @@ const styles = StyleSheet.create({
     mapContainer: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     map: {
 
@@ -76,6 +70,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 20,
         alignSelf: 'center',
+        zIndex: 1,
     }
 
 })

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, ActionSheetIOS, ScrollView} from 'react-native';
+import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, ActionSheetIOS, ScrollView, Alert, Image} from 'react-native';
 import { Header, Input } from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {sportList} from '../../shared/sportlist/sportList';
@@ -20,9 +20,9 @@ export default class AddGroup extends Component<propValues, stateValues> {
     constructor(props) {
         super(props);
         this.state = {
-            SportChoice: {label: 'Choose a Sport...', value: null},
-            DifficultyLevel: {label: 'Select Difficulty Level...', value: null},
-            NumPeople: {label: 'Number of People Desired...', value: null}
+            SportChoice: {label: 'Choose a Sport...', value: 'undefined'},
+            DifficultyLevel: {label: 'Select Difficulty Level...', value: 'Not Specified'},
+            NumPeople: {label: 'Number of People Desired...', value: 'Not Specified'}
         };
 
         this.populateSportsDropdown = this.populateSportsDropdown.bind(this);
@@ -59,9 +59,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
 
     render() {
         return(
-            <SafeAreaView style={{flex: 1}}>
-                <ScrollView contentContainerStyle={{flex:1}}>
-                <KeyboardAvoidingView style={styles.container} behavior='height'>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
                     <TouchableOpacity 
                         style = {styles.cancelButton}
@@ -76,108 +74,113 @@ export default class AddGroup extends Component<propValues, stateValues> {
                             Create
                         </Text>
                     </View>
+                    <TouchableOpacity 
+                        style = {styles.submitButton}
+                        onPress={() => this.props.navigation.goBack()}
+                    >
+                        <Text style={styles.headerCancel}>
+                            Submit
+                        </Text>
+                    </TouchableOpacity>
                 </View>
-                <View style={styles.picker}>
-                    <RNPickerSelect
-                        style={{
-                            inputIOS: {
-                                color: 'black'
-                            }
-                        }}
-                        onValueChange={(value) => this.setState({SportChoice: value.value})}
-                        items={this.populateSportsDropdown()}
-                        placeholder= {this.state.SportChoice}
-                    />
-                </View>
-                <View style={styles.picker}>
-                    <RNPickerSelect
-                        style={{
-                            inputIOS: {
-                                color: 'black'
-                            }
-                        }}
-                        placeholder= {this.state.DifficultyLevel}
-                        onValueChange={(value) => console.log(value)}
-                        items={[
-                            {
-                                label: 'Beginner',
-                                value: 'beginner'
-                            },
-                            {
-                                label: 'Intermediate',
-                                value: 'intermediate'
-                            },
-                            {
-                                label: 'Advanced',
-                                value: 'advanced'
-                            }
-                        ]}
-                    />
-                </View>
-                <View style={styles.picker}>
-                    <RNPickerSelect
-                        style={{
-                            inputIOS: {
-                                color: 'black'
-                            }
-                        }}
-                        placeholder={this.state.NumPeople}
-                        onValueChange={(value) => console.log(value)}
-                        items={this.populateNumPeopleDropdown()}
-                    />
-                </View>
+                <View style={styles.bodyContainer}>
+                    <View style={styles.picker}>
+                        <RNPickerSelect
+                            style={{
+                                inputIOS: {
+                                    color: 'black',
+                                    fontSize: 20,
+                                }
+                            }}
+                            onValueChange={(value) => {
+                                if(value.value === 'undefined') {
+                                    Alert.alert('Need to Choose a Sport')
+                                } else (
+                                    this.setState({SportChoice: value.value})
+                                )
+                            }}
+                            items={this.populateSportsDropdown()}
+                            placeholder= {this.state.SportChoice}
+                        />
+                    </View>
+                    <View style={styles.picker}>
+                        <RNPickerSelect
+                            style={{
+                                inputIOS: {
+                                    color: 'black',
+                                    fontSize: 20,
+                                }
+                            }}
+                            placeholder= {this.state.DifficultyLevel}
+                            onValueChange={(value) => console.log(value)}
+                            items={[
+                                {
+                                    label: 'Beginner',
+                                    value: 'beginner'
+                                },
+                                {
+                                    label: 'Intermediate',
+                                    value: 'intermediate'
+                                },
+                                {
+                                    label: 'Advanced',
+                                    value: 'advanced'
+                                }
+                            ]}
+                        />
+                    </View>
+                    <View style={styles.picker}>
+                        <RNPickerSelect
+                            style={{
+                                inputIOS: {
+                                    color: 'black',
+                                    fontSize: 20,
+                                }
+                            }}
+                            placeholder={this.state.NumPeople}
+                            onValueChange={(value) => console.log(value)}
+                            items={this.populateNumPeopleDropdown()}
+                        />
+                    </View>
 
-                <View style={styles.ButtonContainer}>
-                       <TouchableOpacity
+                    <View style={styles.ButtonContainer}>
+                        <TouchableOpacity
                             style = {{flex: 1, height: 60}}
                             onPress={() => {
                                 console.log("you pressed use current")
                             }}
-                       >
+                        >
                             <View style={styles.ButtonStyles}>
-                                <Text style={{color: 'black'}}>
-                                    Use Current Location
+                                <Text style={{color: 'black', fontSize: 20}}>
+                                    Choose Location
                                 </Text>
                             </View>
-                       </TouchableOpacity>
+                        </TouchableOpacity>
 
-                    <TouchableOpacity 
-                        style={{flex:1, height: 60}}
-                        onPress={()=>{
-                        console.log('You Pressed Choose from map')
-                        }}
-                    >
-                        <View style={styles.ButtonStyles}>
-                            <Text style={{color: 'black'}}>
-                                Choose From Map
-                            </Text>
-                        </View>  
-                    </TouchableOpacity>
-                        
+                        {/* <TouchableOpacity 
+                            style={{flex:1, height: 60}}
+                            onPress={()=>{
+                            console.log('You Pressed Choose from map')
+                            }}
+                        >
+                            <View style={styles.ButtonStyles}>
+                                <Text style={{color: 'black', fontSize: 20}}>
+                                    Choose from Map
+                                </Text>
+                            </View>  
+                        </TouchableOpacity>      */}
+                    </View>
+                    <View style={styles.textBoxContainer}>
+                        <TextInput
+                            style={styles.textBox}
+                            placeholder={'Add Notes Here'}
+                            multiline = {true}
+                        />
+                    </View>
+                    <View style={{flex:3, justifyContent: 'center', alignSelf:'center'}}>
+                        <Image style={{height: 150, width: 150}} source={require('../../shared/images/Icons/TeamUpEmblems/teamUpEmblem.png')}/>
+                    </View>
                 </View>
-                <View style={{flex:5, borderColor: 'lightgrey', borderWidth: 2, margin: 10, marginTop: 0}}>
-                    <TextInput
-                        placeholder={'Add Notes Here'}
-                        multiline = {true}
-                    />
-                </View>
-                <TouchableOpacity
-                    style={styles.submitButtonContainer}
-                    onPress={() => {
-                        //TODO: This is where you can input logic to pass the json to firestore
-                        console.log('Hello');
-                        this.props.navigation.goBack(); //TODO: throw this in the returned confirmation logic if the addition is successful
-                    }}
-                >
-                    <View style={styles.submitButtonView}>
-                        <Text style={styles.submitButtonText}>
-                            CREATE
-                        </Text>  
-                    </View>       
-                </TouchableOpacity>
-                
-                </KeyboardAvoidingView>
-                </ScrollView>
             </SafeAreaView> 
         )
     }
@@ -189,27 +192,34 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'flex-start',
-        bottom: 0,
     },
     picker: {
         flex: 1,
         justifyContent: 'center',
-        borderColor: 'lightgrey',
-        borderBottomWidth: 1,
+        borderColor: 'black',
         maxHeight: 60,
         margin: 5,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        padding: 5,
+        borderWidth: 1,
+        shadowColor: '#8e2224',
+        shadowOffset: {
+        width: 1.5,
+        height: 5
+        },
+        shadowRadius: 5,
+        shadowOpacity: 0.6
     },
     textBox: {
         flex: 1,
-        justifyContent: 'center',
-        maxHeight: 60,
-        paddingLeft: 10
+        paddingLeft: 10,
+        fontSize: 20,
     },
     ButtonContainer: {
-        flex: 2,
+        flex: 1,
         flexDirection: 'row',
         height: 60,
-        justifyContent: 'space-evenly'
     },
     ButtonStyles: {
         padding: 10,
@@ -218,51 +228,53 @@ const styles = StyleSheet.create({
         margin: 5,
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: 'lightgrey',
-        borderWidth: 1
-    },
-    submitButtonContainer: {
-        alignSelf: 'baseline',
-        marginRight: 'auto',
-        marginLeft: 'auto',
-        marginBottom: 10,
-        width: '90%',
-    },
-    submitButtonView: {
-        backgroundColor: 'lightgrey',
-        height: 40,
+        borderColor: 'black',
+        borderWidth: 1,
+        backgroundColor: 'white',
         borderRadius: 10,
+        shadowColor: '#8e2224',
+        shadowOffset: {
+        width: 1.5,
+        height: 5
+        },
+        shadowRadius: 5,
+        shadowOpacity: 0.6
+    },
+    bodyContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        backgroundColor: 'white',
+    },
+    textBoxContainer: {
+        flex: 2,
         justifyContent: 'center',
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 10,
+        marginLeft: 5,
+        marginRight: 5,
+        marginBottom: 5,
+        backgroundColor: 'white',
+        shadowColor: '#8e2224',
+        shadowOffset: {
+        width: 1.5,
+        height: 5
+        },
+        shadowRadius: 5,
+        shadowOpacity: 0.6
     },
-    submitButtonText: {
-        alignSelf: 'center',
-        fontSize: 20,
-        color: 'white',
-    },
-
     header: {
         height: 60,
         flexDirection: 'row',
         width: '100%',
-        backgroundColor: 'white',
+        backgroundColor: '#c93033',
         borderBottomColor: 'darkgrey',
         borderBottomWidth: 2,
     },
     headerText: {
-        fontSize: 25,  
-    },
-    footer: {
-        bottom: 5,
-        alignSelf: 'center',
-        height: 20,
-        width: '100%',
-    },
-    submitButton: {
-        width: '100%',
-        height: 10,
-        borderRadius: 5,
-        borderColor: 'darkgrey',
-        borderWidth: 1,
+        fontSize: 25,
+        color: 'white'  
     },
     headerLogo: {
         marginRight: 'auto',
@@ -275,7 +287,13 @@ const styles = StyleSheet.create({
         left: 20,
         top: 20,
     },
+    submitButton: {
+        position: 'absolute',
+        right: 20,
+        top: 20
+    },
     headerCancel: {
         fontSize: 19,
+        color: 'white',
     }    
 })
