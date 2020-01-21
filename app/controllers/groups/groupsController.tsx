@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, SafeAreaView } from 'react-native';
-import {Header, ButtonGroup} from 'react-native-elements';
 import Icon  from 'react-native-vector-icons/Ionicons';
 import { Group } from '../../shared/groups/group';
 
-// type Props = {
-//     activeGroups: Group[]
-//     requested: Group[]
-// }
+type Props = {
+    activeGroups: Group[],
+    requested: Group[],
+    navigation: any
+}
 
 type groupState = {
     activeGroups: Group[]
 }
 
-export default class groupsController extends React.Component<{}, groupState> {
+export default class groupsController extends React.Component<Props, groupState> {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,8 +23,7 @@ export default class groupsController extends React.Component<{}, groupState> {
 
     render() {
         return(
-            <SafeAreaView style={{flex: 1}}>
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.headerTextContainer}>
                         <Text style={styles.headerText}>
@@ -53,7 +52,6 @@ export default class groupsController extends React.Component<{}, groupState> {
                         </Text>
                     </View>
                 }
-            </View>
             </SafeAreaView>
         );
     }
@@ -67,7 +65,7 @@ const styles = StyleSheet.create({
     header: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'white',
+        backgroundColor: '#f2f2f2',
         maxHeight: 55,
         width: '100%',
         borderBottomWidth: 2,

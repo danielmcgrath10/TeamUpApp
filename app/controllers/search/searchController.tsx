@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 
 export default class SearchScreen extends React.Component {
     render() {
         return(
-            <SafeAreaView style={{flex: 1}}>
             <View style={styles.container}>
                 <View style = {styles.textBox}>
                     <Text>
@@ -12,7 +11,6 @@ export default class SearchScreen extends React.Component {
                     </Text>
                 </View> 
             </View>
-            </SafeAreaView>
         )
     }
 }

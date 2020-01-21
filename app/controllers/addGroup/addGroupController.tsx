@@ -1,19 +1,33 @@
 import React, {Component} from 'react';
-import {View, Text, Picker, PickerItem, StyleSheet, Button, TouchableOpacity, TextInput, KeyboardAvoidingView, SafeAreaView, Platform, ActionSheetIOS, ScrollView, Alert, Image} from 'react-native';
+import {View, 
+    Text, 
+    Picker, 
+    PickerItem, 
+    StyleSheet, 
+    Button, 
+    TouchableOpacity, 
+    TextInput, 
+    KeyboardAvoidingView, 
+    SafeAreaView, 
+    Alert, 
+    Image,
+    Keyboard
+} from 'react-native';
 import { Header, Input } from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {sportList} from '../../shared/sportlist/sportList';
 import RNPickerSelect, {Item} from 'react-native-picker-select';
 
 type propValues = {
-    SportChoice: Item,
-    DifficultyLevel: Item,
-    NumPeople: Item,
+    SportChoice: string,
+    DifficultyLevel: string,
+    NumPeople: number,
+    navigation: any
 }
 
 type stateValues ={
     SportChoice: Item,
-    DifficultyLevel: Item
+    DifficultyLevel: Item,
     NumPeople: Item
 }
 export default class AddGroup extends Component<propValues, stateValues> {
@@ -24,8 +38,6 @@ export default class AddGroup extends Component<propValues, stateValues> {
             DifficultyLevel: {label: 'Select Difficulty Level...', value: 'Not Specified'},
             NumPeople: {label: 'Number of People Desired...', value: 'Not Specified'}
         };
-
-        this.populateSportsDropdown = this.populateSportsDropdown.bind(this);
     }
 
     populateSportsDropdown(): Item[] {
@@ -70,9 +82,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
                         </Text>
                     </TouchableOpacity>
                     <View style={styles.headerLogo}>
-                        <Text style={styles.headerText}>
-                            Create
-                        </Text>
+                        <Image style={{height: 40, width: 160}} source={require('../../shared/images/Icons/TeamUpEmblems/TEAMUPLOGO.png')}/>
                     </View>
                     <TouchableOpacity 
                         style = {styles.submitButton}
@@ -151,24 +161,11 @@ export default class AddGroup extends Component<propValues, stateValues> {
                             }}
                         >
                             <View style={styles.ButtonStyles}>
-                                <Text style={{color: 'black', fontSize: 20}}>
+                                <Text style={{color: '#535353', fontSize: 20}}>
                                     Choose Location
                                 </Text>
                             </View>
                         </TouchableOpacity>
-
-                        {/* <TouchableOpacity 
-                            style={{flex:1, height: 60}}
-                            onPress={()=>{
-                            console.log('You Pressed Choose from map')
-                            }}
-                        >
-                            <View style={styles.ButtonStyles}>
-                                <Text style={{color: 'black', fontSize: 20}}>
-                                    Choose from Map
-                                </Text>
-                            </View>  
-                        </TouchableOpacity>      */}
                     </View>
                     <View style={styles.textBoxContainer}>
                         <TextInput
@@ -177,11 +174,11 @@ export default class AddGroup extends Component<propValues, stateValues> {
                             multiline = {true}
                         />
                     </View>
-                    <View style={{flex:3, justifyContent: 'center', alignSelf:'center'}}>
-                        <Image style={{height: 150, width: 150}} source={require('../../shared/images/Icons/TeamUpEmblems/teamUpEmblem.png')}/>
-                    </View>
+                    {/* <View style={{flex:1, justifyContent: 'center', alignSelf:'center'}}>
+                        
+                    </View> */}
                 </View>
-            </SafeAreaView> 
+            </SafeAreaView>
         )
     }
     
@@ -190,26 +187,28 @@ export default class AddGroup extends Component<propValues, stateValues> {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
     },
     picker: {
         flex: 1,
         justifyContent: 'center',
-        borderColor: 'black',
-        maxHeight: 60,
-        margin: 5,
+        borderColor: '#535353',
+        marginTop: 10,
+        marginLeft: 10,
+        marginRight: 10,
         backgroundColor: 'white',
         borderRadius: 10,
         padding: 5,
         borderWidth: 1,
-        shadowColor: '#8e2224',
+        // shadowColor: '#8e2224',
         shadowOffset: {
         width: 1.5,
         height: 5
         },
-        shadowRadius: 5,
-        shadowOpacity: 0.6
+        shadowRadius: 2,
+        shadowOpacity: 0.05
     },
     textBox: {
         flex: 1,
@@ -218,57 +217,58 @@ const styles = StyleSheet.create({
     },
     ButtonContainer: {
         flex: 1,
-        flexDirection: 'row',
-        height: 60,
+        display: 'flex',
     },
     ButtonStyles: {
-        padding: 10,
-        height: 60,
         flex: 1,
-        margin: 5,
+        padding: 10,
+        marginTop: 10,
+        marginLeft: 10,
+        marginRight: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        borderColor: 'black',
+        borderColor: '#535353',
         borderWidth: 1,
         backgroundColor: 'white',
         borderRadius: 10,
-        shadowColor: '#8e2224',
+        // shadowColor: '#8e2224',
         shadowOffset: {
-        width: 1.5,
-        height: 5
+            width: 1.5,
+            height: 5
         },
-        shadowRadius: 5,
-        shadowOpacity: 0.6
+        shadowRadius: 2,
+        shadowOpacity: 0.05
     },
     bodyContainer: {
         flex: 1,
+        display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         backgroundColor: 'white',
     },
     textBoxContainer: {
-        flex: 2,
+        flex: 7,
+        display: 'flex',
         justifyContent: 'center',
-        borderColor: 'black',
+        borderColor: '#535353',
         borderWidth: 1,
         borderRadius: 10,
-        marginLeft: 5,
-        marginRight: 5,
-        marginBottom: 5,
+        margin: 10,
         backgroundColor: 'white',
-        shadowColor: '#8e2224',
+        // shadowColor: '#8e2224',
         shadowOffset: {
-        width: 1.5,
-        height: 5
+            width: 1.5,
+            height: 5
         },
-        shadowRadius: 5,
-        shadowOpacity: 0.6
+        shadowRadius: 2,
+        shadowOpacity: 0.05
     },
     header: {
         height: 60,
+        display: 'flex',
         flexDirection: 'row',
         width: '100%',
-        backgroundColor: '#c93033',
+        backgroundColor: '#f2f2f2',
         borderBottomColor: 'darkgrey',
         borderBottomWidth: 2,
     },
@@ -294,6 +294,6 @@ const styles = StyleSheet.create({
     },
     headerCancel: {
         fontSize: 19,
-        color: 'white',
+        color: 'black',
     }    
 })

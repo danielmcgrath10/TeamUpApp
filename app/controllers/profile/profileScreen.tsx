@@ -45,8 +45,7 @@ export default class ProfileScreen extends Component<Props, State> {
         return (
             this.state.profileInfo ?
             (
-                <SafeAreaView style={{flex: 1}}>
-                <View style={styles.container}>
+                <SafeAreaView style={styles.container}>
                     <View style={styles.upperProfile}>
                         
                         <TouchableOpacity 
@@ -94,13 +93,10 @@ export default class ProfileScreen extends Component<Props, State> {
                             </View>
                         </View>
                     </View>
-
-                </View>
                 </SafeAreaView>
             ) :
             (
-                <SafeAreaView style={{flex: 1}}>
-                <View style={styles.container}>
+                <SafeAreaView style={styles.container}>
                     <View style={styles.upperProfile}>
                         
                         <TouchableOpacity 
@@ -143,8 +139,6 @@ export default class ProfileScreen extends Component<Props, State> {
                             </View>
                         </View>
                     </View>
-
-                </View>
                 </SafeAreaView>
             )
         )
@@ -158,7 +152,7 @@ const styles = StyleSheet.create({
     },
     upperProfile: {
         flex: 2,
-        backgroundColor: 'lightgrey'
+        backgroundColor: '#f2f2f2'
     },
     fabButton: {
         height: '75%',
