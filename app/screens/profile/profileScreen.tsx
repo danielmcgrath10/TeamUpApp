@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, ActivityIndicator, SafeAreaView } from 'react-native';
 import  Icon from 'react-native-vector-icons/Ionicons';
 import { UserProfile, MockProfile } from '../../shared/models/Mock-Profile';
 
@@ -45,7 +45,7 @@ export default class ProfileScreen extends Component<Props, State> {
         return (
             this.state.profileInfo ?
             (
-                <View style={styles.container}>
+                <SafeAreaView style={styles.container}>
                     <View style={styles.upperProfile}>
                         
                         <TouchableOpacity 
@@ -93,11 +93,10 @@ export default class ProfileScreen extends Component<Props, State> {
                             </View>
                         </View>
                     </View>
-
-                </View>
+                </SafeAreaView>
             ) :
             (
-                <View style={styles.container}>
+                <SafeAreaView style={styles.container}>
                     <View style={styles.upperProfile}>
                         
                         <TouchableOpacity 
@@ -140,8 +139,7 @@ export default class ProfileScreen extends Component<Props, State> {
                             </View>
                         </View>
                     </View>
-
-                </View>
+                </SafeAreaView>
             )
         )
     }
@@ -154,7 +152,7 @@ const styles = StyleSheet.create({
     },
     upperProfile: {
         flex: 2,
-        backgroundColor: 'lightgrey'
+        backgroundColor: '#f2f2f2'
     },
     fabButton: {
         height: '75%',

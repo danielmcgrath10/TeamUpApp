@@ -1,29 +1,35 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView } from 'react-native';
-import {Header, ButtonGroup} from 'react-native-elements';
+import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, SafeAreaView, FlatList } from 'react-native';
 import Icon  from 'react-native-vector-icons/Ionicons';
 import { Group } from '../../shared/groups/group';
+import { GroupList } from '../../shared/groups/mock-groups';
+import { ListItem } from 'react-native-elements';
 
-// type Props = {
-//     activeGroups: Group[]
-//     requested: Group[]
-// }
+type Props = {
+    activeGroups: Group[],
+    requested: Group[],
+    navigation: any
+}
 
 type groupState = {
     activeGroups: Group[]
 }
 
-export default class groupsController extends React.Component<{}, groupState> {
+export default class groupsController extends React.Component<Props, groupState> {
     constructor(props) {
         super(props);
         this.state = {
-            activeGroups: null
+            activeGroups: GroupList,
         };
+    }
+
+    toCapitalize = (string: string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     render() {
         return(
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
                     <View style={styles.headerTextContainer}>
                         <Text style={styles.headerText}>
@@ -43,16 +49,28 @@ export default class groupsController extends React.Component<{}, groupState> {
                     
                 </View>
                 {this.state.activeGroups ? 
-                    <ScrollView>
+                        <FlatList
+                            data={this.state.activeGroups}
+                            renderItem={({item}) => (
+                                <TouchableOpacity>
+                                    <ListItem
+                                        key={item.userID}
+                                        title={this.toCapitalize(item.sport)}
+                                        subtitle={item.skillLevel? this.toCapitalize(item.skillLevel): null}
+                                        bottomDivider
+                                    />
+                                </TouchableOpacity>
+                            )}
+                        />
 
-                    </ScrollView> :
+                     :
                     <View style={styles.noInfoDisplay}>
                         <Text style={styles.noInfoDisplayText}>
                             No Group Activity to Display
                         </Text>
                     </View>
                 }
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -65,7 +83,7 @@ const styles = StyleSheet.create({
     header: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'white',
+        backgroundColor: '#f2f2f2',
         maxHeight: 55,
         width: '100%',
         borderBottomWidth: 2,
