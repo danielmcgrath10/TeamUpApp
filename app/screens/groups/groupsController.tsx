@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, SafeAreaView, FlatList } from 'react-native';
 import Icon  from 'react-native-vector-icons/Ionicons';
 import { Group } from '../../shared/groups/group';
+import { GroupList } from '../../shared/groups/mock-groups';
+import { ListItem } from 'react-native-elements';
 
 type Props = {
     activeGroups: Group[],
@@ -17,8 +19,12 @@ export default class groupsController extends React.Component<Props, groupState>
     constructor(props) {
         super(props);
         this.state = {
-            activeGroups: null
+            activeGroups: GroupList,
         };
+    }
+
+    toCapitalize = (string: string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
     render() {
@@ -43,9 +49,21 @@ export default class groupsController extends React.Component<Props, groupState>
                     
                 </View>
                 {this.state.activeGroups ? 
-                    <ScrollView>
+                        <FlatList
+                            data={this.state.activeGroups}
+                            renderItem={({item}) => (
+                                <TouchableOpacity>
+                                    <ListItem
+                                        key={item.userID}
+                                        title={this.toCapitalize(item.sport)}
+                                        subtitle={item.skillLevel? this.toCapitalize(item.skillLevel): null}
+                                        bottomDivider
+                                    />
+                                </TouchableOpacity>
+                            )}
+                        />
 
-                    </ScrollView> :
+                     :
                     <View style={styles.noInfoDisplay}>
                         <Text style={styles.noInfoDisplayText}>
                             No Group Activity to Display

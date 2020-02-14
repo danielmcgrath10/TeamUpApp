@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 
-import HomeScreen from './controllers/homeScreen/homeScreen';
-import AddGroup from './controllers/addGroup/addGroupController';
-import SearchScreen from './controllers/search/searchController';
-import groupsController from './controllers/groups/groupsController';
-import ProfileScreen from './controllers/profile/profileScreen';
-import SettingsScreen from './controllers/settings/settingsScreen';
+import HomeScreen from './screens/homeScreen/homeScreen';
+import AddGroup from './screens/addGroup/addGroupController';
+import SearchScreen from './screens/search/searchController';
+import groupsController from './screens/groups/groupsController';
+import ProfileScreen from './screens/profile/profileScreen';
+import SettingsScreen from './screens/settings/settingsScreen';
 
 import {createAppContainer } from 'react-navigation';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 import Icon from 'react-native-vector-icons/Ionicons';
-import GroupDetailScreen from './controllers/groupDetail/groupDetail';
+import GroupDetailScreen from './screens/groupDetail/groupDetail';
 
 const groupStack = createStackNavigator({
   groupsController: {

@@ -1,6 +1,8 @@
 export type Group = {
     userID: string,
+    gameID: string,
     active: boolean,
+    sport: string,
     region: {
         lat: number,
         lon: number,
