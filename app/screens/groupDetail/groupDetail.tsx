@@ -32,9 +32,17 @@ export default class GroupDetailScreen extends Component<groupDetailProps, group
                     </Text>
                 </View>
                 <View style={styles.body}>
-                    {/* <View style={}>
-                        
-                    </View> */}
+                    <View style={styles.groupDetailTop}>
+                        <View style={styles.groupImage}>
+
+                        </View>
+                    </View>
+                    <View style={styles.groupDetailMiddle}>
+
+                    </View>
+                    <View style={styles.groupDetailBottom}>
+
+                    </View>
                 </View>
             </SafeAreaView>
         )
@@ -69,5 +77,27 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
+    },
+    groupDetailTop: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        padding: 10
+    },
+    groupDetailMiddle: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    groupDetailBottom: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    groupImage: {
+        height: 90,
+        width: 90,
+        borderRadius: 50,
+        borderColor: 'darkgrey',
+        borderWidth: 1,
+        backgroundColor: 'white',
     }   
 })
