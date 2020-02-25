@@ -4,6 +4,7 @@ import Icon  from 'react-native-vector-icons/Ionicons';
 import { Group } from '../../shared/groups/group';
 import { GroupList } from '../../shared/groups/mock-groups';
 import { ListItem } from 'react-native-elements';
+import { db } from '../../shared/Firebase';
 
 type Props = {
     activeGroups: Group[],
@@ -14,6 +15,8 @@ type Props = {
 type groupState = {
     activeGroups: Group[]
 }
+
+let groupsRef = db.collection("groups");
 
 export default class groupsController extends React.Component<Props, groupState> {
     constructor(props) {

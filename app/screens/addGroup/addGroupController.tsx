@@ -17,6 +17,7 @@ import { Header, Input } from 'react-native-elements';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {sportList} from '../../shared/sportlist/sportList';
 import RNPickerSelect, {Item} from 'react-native-picker-select';
+import { db } from '../../shared/Firebase';
 
 type propValues = {
     SportChoice: string,
@@ -68,6 +69,21 @@ export default class AddGroup extends Component<propValues, stateValues> {
         }
         return pickerList;
     }
+    writeGroupToFirestore(): void {
+        let newDoc = db.collection("groups").doc("testGroup");
+        let setGroup = newDoc.set({
+            active: true,
+            message: "bring weed",
+            openSpots: 3,
+            playingCurrently: [],
+            region: "1 N, 1 E",
+            regionDelta: "1 N, 1 E",
+            skillLevel: "intermediate",
+            sport: "hockey",
+            userId: "hungngggg"
+        });
+        //return setGroup
+    }
 
     render() {
         return(
@@ -86,7 +102,8 @@ export default class AddGroup extends Component<propValues, stateValues> {
                     </View>
                     <TouchableOpacity 
                         style = {styles.submitButton}
-                        onPress={() => this.props.navigation.goBack()}
+                        //onPress={() => this.props.navigation.goBack()}
+                        onPress={() => this.writeGroupToFirestore()}
                     >
                         <Text style={styles.headerCancel}>
                             Submit
