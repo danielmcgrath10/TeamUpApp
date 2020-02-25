@@ -18,6 +18,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {sportList} from '../../shared/sportlist/sportList';
 import RNPickerSelect, {Item} from 'react-native-picker-select';
 import { db } from '../../shared/Firebase';
+import { firestore } from 'firebase';
 
 type propValues = {
     SportChoice: string,
@@ -29,7 +30,11 @@ type propValues = {
 type stateValues ={
     SportChoice: Item,
     DifficultyLevel: Item,
-    NumPeople: Item
+    NumPeople: Item,
+    CurrentUser: string,
+    CurrentLatitude: number,
+    CurrentLongitude: number,
+    Message: string
 }
 export default class AddGroup extends Component<propValues, stateValues> {
     constructor(props) {
@@ -37,7 +42,11 @@ export default class AddGroup extends Component<propValues, stateValues> {
         this.state = {
             SportChoice: {label: 'Choose a Sport...', value: 'undefined'},
             DifficultyLevel: {label: 'Select Difficulty Level...', value: 'Not Specified'},
-            NumPeople: {label: 'Number of People Desired...', value: 'Not Specified'}
+            NumPeople: {label: 'Number of People Desired...', value: 'Not Specified'},
+            CurrentUser: "Mr. Placeholder",
+            CurrentLatitude: 69,
+            CurrentLongitude: 69,
+            Message: "Placeholder message (bring weed)"
         };
     }
 
@@ -46,7 +55,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
         sportList.sort().forEach(sport => {
             pickerList.push(
                 {
-                    label: sport,
+                    label: sport,   //Why have a label and a value if they're going to be set to the same thing
                     value: sport
                 }
             )    
@@ -71,16 +80,18 @@ export default class AddGroup extends Component<propValues, stateValues> {
     }
     writeGroupToFirestore(): void {
         let newDoc = db.collection("groups").doc("testGroup");
+        let geoPnt = new firestore.GeoPoint(this.state.CurrentLatitude, this.state.CurrentLongitude);
         let setGroup = newDoc.set({
             active: true,
             message: "bring weed",
-            openSpots: 3,
+            openSpots: this.state.NumPeople,
             playingCurrently: [],
-            region: "1 N, 1 E",
-            regionDelta: "1 N, 1 E",
-            skillLevel: "intermediate",
-            sport: "hockey",
-            userId: "hungngggg"
+            region: geoPnt,
+            latDelta: 1,
+            lonDelta: 1,
+            skillLevel: this.state.DifficultyLevel,
+            sport: this.state.SportChoice,
+            userId: this.state.CurrentUser,
         });
         //return setGroup
     }
@@ -121,10 +132,12 @@ export default class AddGroup extends Component<propValues, stateValues> {
                             }}
                             onValueChange={(value) => {
                                 if(value.value === 'undefined') {
-                                    Alert.alert('Need to Choose a Sport')
-                                } else (
+                                    Alert.alert('Need to Choose a Sport') //This alert should occur when the submit button is pressed, I can't get this alert to trigger
+                                                                          //Also aren't errors usually handled with ".catch" statements? this seems non-React-ish
+                                } else {
                                     this.setState({SportChoice: value.value})
-                                )
+                                    console.log(this.state.SportChoice)
+                                }
                             }}
                             items={this.populateSportsDropdown()}
                             placeholder= {this.state.SportChoice}
