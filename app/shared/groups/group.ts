@@ -12,5 +12,5 @@ export type Group = {
     skillLevel?: string,
     openSpots: number,
     playingCurrently: string[],
-    message?: string,
+    message?: string, 
 }

@@ -33,31 +33,24 @@ export default class groupsController extends React.Component<Props, groupState>
                 <View style={styles.header}>
                     <View style={styles.headerTextContainer}>
                         <Text style={styles.headerText}>
-                            Group Activity
+                            Groups
                         </Text>
                     </View>
-                    
-                    <TouchableOpacity 
-                        style={styles.addIcon}
-                        onPress={() => this.props.navigation.navigate('addGroup')}    
-                    >
-                        <Icon 
-                            name="ios-add"
-                            size = {35}
-                        />
-                    </TouchableOpacity>
-                    
                 </View>
                 {this.state.activeGroups ? 
                         <FlatList
                             data={this.state.activeGroups}
-                            renderItem={({item}) => (
-                                <TouchableOpacity>
+                            renderItem={({item, index}) => (
+                                <TouchableOpacity key={index}>
                                     <ListItem
-                                        key={item.userID}
+                                        leftAvatar={{icon: {name: 'person-outline'}}}
+                                        key={index}
                                         title={this.toCapitalize(item.sport)}
                                         subtitle={item.skillLevel? this.toCapitalize(item.skillLevel): null}
                                         bottomDivider
+                                        onPress={() => this.props.navigation.navigate('groupDetail', {
+                                            group: item
+                                        })}
                                     />
                                 </TouchableOpacity>
                             )}
@@ -70,6 +63,17 @@ export default class groupsController extends React.Component<Props, groupState>
                         </Text>
                     </View>
                 }
+                <TouchableOpacity 
+                    style={styles.addIcon}
+                    onPress={() => this.props.navigation.navigate('addGroup')}    
+                >
+                    <Icon 
+                        color='white'
+                        name="ios-add"
+                        size = {40}
+                        style={{fontWeight: '800'}}
+                    />
+                </TouchableOpacity>
             </SafeAreaView>
         );
     }
@@ -77,27 +81,36 @@ export default class groupsController extends React.Component<Props, groupState>
 
 const styles = StyleSheet.create({
     container: {
+        display: 'flex',
         flex: 1,
         flexDirection: 'column',
     },
     header: {
+        display: 'flex',
         flex: 1,
         flexDirection: 'row',
+        justifyContent: 'center',
+        alignContent: 'flex-end',
         backgroundColor: '#f2f2f2',
-        maxHeight: 55,
+        minHeight: 50,
         width: '100%',
         borderBottomWidth: 2,
         borderBottomColor: 'darkgrey',
         marginBottom: 2,
     },
     addIcon: {
+        justifyContent: 'center',
+        alignItems: 'center',
         position: 'absolute',
+        width: 55,
+        height: 55,
+        backgroundColor: 'blue',
+        borderRadius: 100,
         right: 20,
-        top: 10,
+        bottom: 20,
+        elevation: 10,
     },
     headerTextContainer: {
-        marginRight: 'auto',
-        marginLeft: 'auto',
         marginTop: 'auto',
         marginBottom: 'auto',
     },
