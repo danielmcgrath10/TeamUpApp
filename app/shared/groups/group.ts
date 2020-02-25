@@ -1,3 +1,5 @@
+import { UserProfile } from "../models/Mock-Profile";
+
 export type Group = {
     userID: string,
     gameID: string,
@@ -11,6 +13,7 @@ export type Group = {
     },
     skillLevel?: string,
     openSpots: number,
-    playingCurrently: string[],
+    playingCurrently: UserProfile[],
+    requests?: UserProfile[],
     message?: string, 
 }

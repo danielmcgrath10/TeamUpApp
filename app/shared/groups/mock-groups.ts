@@ -1,4 +1,5 @@
 import { Group } from "./group";
+import { mockUserGroup } from "../models/Mock-Profile";
 
 export function getMockList(): Group[] {
     return ([
@@ -15,7 +16,8 @@ export function getMockList(): Group[] {
             },
             skillLevel: 'Intermediate',
             openSpots: 5,
-            playingCurrently: [],
+            playingCurrently: mockUserGroup,
+            requests: mockUserGroup,
             message: '',    
         }
     ])
@@ -35,7 +37,8 @@ export const GroupList: Group[] = [
         },
         skillLevel: 'intermediate',
         openSpots: 5,
-        playingCurrently: [],
+        playingCurrently: mockUserGroup,
+        requests: mockUserGroup,
         message: '',    
     },
     {
