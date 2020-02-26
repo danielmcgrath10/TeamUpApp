@@ -23,8 +23,6 @@ import { firestore } from 'firebase';
 
 //We gotta add headers, descriptions, comments, etc. Lets be professional here
 
-//TODO: Add correct data passage to the rest of the dialogue inputs
-
 
 type propValues = {
     SportChoice: string,
