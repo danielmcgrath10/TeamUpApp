@@ -20,6 +20,12 @@ import RNPickerSelect, {Item} from 'react-native-picker-select';
 import { db } from '../../shared/Firebase';
 import { firestore } from 'firebase';
 
+
+//We gotta add headers, descriptions, comments, etc. Lets be professional here
+
+//TODO: Add correct data passage to the rest of the dialogue inputs
+
+
 type propValues = {
     SportChoice: string,
     DifficultyLevel: string,
@@ -84,13 +90,13 @@ export default class AddGroup extends Component<propValues, stateValues> {
         let setGroup = newDoc.set({
             active: true,
             message: "bring weed",
-            openSpots: this.state.NumPeople,
+            openSpots: this.state.NumPeople.value,
             playingCurrently: [],
             region: geoPnt,
             latDelta: 1,
             lonDelta: 1,
-            skillLevel: this.state.DifficultyLevel,
-            sport: this.state.SportChoice,
+            skillLevel: this.state.DifficultyLevel.value,
+            sport: this.state.SportChoice.value,
             userId: this.state.CurrentUser,
         });
         //return setGroup
@@ -130,12 +136,11 @@ export default class AddGroup extends Component<propValues, stateValues> {
                                     fontSize: 20,
                                 }
                             }}
-                            onValueChange={(value) => {
-                                if(value.value === 'undefined') {
+                            onValueChange={(value) => { //overuse of variable names. if the value of the RN picker is "value" then the name of the data in the state variables shouldn't be "value"
+                                if(value.value === 'undefined') { //I believe 'value.value' is wrong and returns an undefined value
                                     Alert.alert('Need to Choose a Sport') //This alert should occur when the submit button is pressed, I can't get this alert to trigger
-                                                                          //Also aren't errors usually handled with ".catch" statements? this seems non-React-ish
                                 } else {
-                                    this.setState({SportChoice: value.value})
+                                    this.setState({SportChoice: {label: value, value: value}}) //again, why have the 'label' in the data type if its never used
                                     console.log(this.state.SportChoice)
                                 }
                             }}
@@ -152,7 +157,10 @@ export default class AddGroup extends Component<propValues, stateValues> {
                                 }
                             }}
                             placeholder= {this.state.DifficultyLevel}
-                            onValueChange={(value) => console.log(value)}
+                            onValueChange={(value) => {
+                                this.setState({DifficultyLevel: {label: value, value: value}})
+                                console.log(this.state.DifficultyLevel)
+                            }}
                             items={[
                                 {
                                     label: 'Beginner',
@@ -178,7 +186,10 @@ export default class AddGroup extends Component<propValues, stateValues> {
                                 }
                             }}
                             placeholder={this.state.NumPeople}
-                            onValueChange={(value) => console.log(value)}
+                            onValueChange={(value) => {
+                                this.setState({NumPeople: {label: value, value: value}})
+                                console.log(this.state.NumPeople)
+                            }}
                             items={this.populateNumPeopleDropdown()}
                         />
                     </View>
