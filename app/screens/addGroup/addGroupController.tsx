@@ -47,10 +47,10 @@ export default class AddGroup extends Component<propValues, stateValues> {
             SportChoice: {label: 'Choose a Sport...', value: 'undefined'},
             DifficultyLevel: {label: 'Select Difficulty Level...', value: 'Not Specified'},
             NumPeople: {label: 'Number of People Desired...', value: 'Not Specified'},
-            CurrentUser: "Mr. Placeholder",
-            CurrentLatitude: 69,
+            CurrentUser: "Mr. Placeholder", //Current user will be implemented once user login is implemented
+            CurrentLatitude: 69, //Latitude and Longitude will be implemented once maps and location data are implemented (https://reactnative.dev/docs/geolocation.html)
             CurrentLongitude: 69,
-            Message: "Placeholder message (bring weed)"
+            Message: "No Notes"
         };
     }
 
@@ -82,14 +82,14 @@ export default class AddGroup extends Component<propValues, stateValues> {
         }
         return pickerList;
     }
-    writeGroupToFirestore(): void {
+    writeGroupToFirestore(): Promise<void> {
         let newDoc = db.collection("groups").doc("testGroup");
         let geoPnt = new firestore.GeoPoint(this.state.CurrentLatitude, this.state.CurrentLongitude);
         let setGroup = newDoc.set({
             active: true,
-            message: "bring weed",
+            message: this.state.Message,
             openSpots: this.state.NumPeople.value,
-            playingCurrently: [],
+            playingCurrently: [], //people will be added to this array as they join the game
             region: geoPnt,
             latDelta: 1,
             lonDelta: 1,
@@ -97,7 +97,8 @@ export default class AddGroup extends Component<propValues, stateValues> {
             sport: this.state.SportChoice.value,
             userId: this.state.CurrentUser,
         });
-        //return setGroup
+        this.props.navigation.goBack(); //this works, which surprises me. the ".then" and ".catch" statements still run and navigation goes back. its beautiful
+        return setGroup
     }
 
     render() {
@@ -117,8 +118,17 @@ export default class AddGroup extends Component<propValues, stateValues> {
                     </View>
                     <TouchableOpacity 
                         style = {styles.submitButton}
-                        //onPress={() => this.props.navigation.goBack()}
-                        onPress={() => this.writeGroupToFirestore()}
+                        //onPress={() => this.props.navigation.goBack()
+                        onPress={() => 
+                            this.writeGroupToFirestore()
+                            .then(function() {
+                                console.log("Group Written Successfully!");
+                            })
+                            .catch(function(error) {
+                                console.error("Error writing document: ", error);
+                            })
+                            
+                        }
                     >
                         <Text style={styles.headerCancel}>
                             Submit
@@ -211,6 +221,9 @@ export default class AddGroup extends Component<propValues, stateValues> {
                             style={styles.textBox}
                             placeholder={'Add Notes Here'}
                             multiline = {true}
+                            onChangeText={text => {
+                                this.setState({Message : text})
+                            }}
                         />
                     </View>
                     {/* <View style={{flex:1, justifyContent: 'center', alignSelf:'center'}}>
