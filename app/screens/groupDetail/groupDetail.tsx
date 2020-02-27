@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import { View, StyleSheet, SafeAreaView, Image, FlatList, Button } from 'react-native';
+import { View, StyleSheet, SafeAreaView, Image, FlatList, Button, SectionList, TouchableOpacity } from 'react-native';
 import { Group } from '../../shared/groups/group';
 import {Text, ListItem, ButtonGroup} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons'
 
 export default function GroupDetailScreen({route, navigation}) {
     const {group} = route.params;
@@ -93,6 +94,23 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column'
     },
+    header: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignContent: 'flex-end',
+        backgroundColor: '#f2f2f2',
+        minHeight: 50,
+        width: '100%',
+        borderBottomWidth: 2,
+        borderBottomColor: 'darkgrey',
+        marginBottom: 2,
+    },
+    settingsButton: {
+        position: 'absolute',
+        right: 10,
+        top: 10,
+    },
     headerText: {
         display: "flex",
         fontSize: 25,
@@ -109,7 +127,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         padding: 10,
-        flex: 0.5
+        flex: 0,
     },
     groupDetailMiddle: {
         display: 'flex',
@@ -130,7 +148,7 @@ const styles = StyleSheet.create({
         width: 90,
         borderRadius: 50,
         borderColor: 'darkgrey',
-        borderWidth: 1,
+        borderWidth: 0.5,
         backgroundColor: 'white',
     },
     listContainer: {
@@ -148,5 +166,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignSelf: 'center',
         fontSize: 20
-    }   
+    },
+    sectionHeader: {
+        fontSize: 15,
+        fontWeight: "400",
+        marginTop: 5,
+        color:'grey',
+    },
+    groupMessageContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        flex:0,
+        padding: 10,
+        justifyContent: 'center'
+    },
+    groupMessage: {
+        
+    }
 })

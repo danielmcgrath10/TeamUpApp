@@ -1,17 +1,20 @@
 import { Rating } from "react-native-elements"
+import { Group } from "react-native"
 
 export type UserProfile = {
     name: string,
     friends?: number,
     rating?: number, 
     summary?: string,
+    curGroups?: Group[],
+    curRequests?: Group[]
 }
 
 export const MockProfile: UserProfile = {
     name: 'Daniel McGrath',
     friends: 5,
     rating: 4.5,
-    summary: 'Huge Sports Guy'
+    summary: 'Huge Sports Guy',
 }
 
 export const mockUserGroup: UserProfile[] = [

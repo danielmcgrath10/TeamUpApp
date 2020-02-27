@@ -39,7 +39,7 @@ export const GroupList: Group[] = [
         openSpots: 5,
         playingCurrently: mockUserGroup,
         requests: mockUserGroup,
-        message: '',    
+        message: 'This is a Sweet Message',    
     },
     {
         userID: '234mfie4',
