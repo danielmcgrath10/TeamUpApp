@@ -1,31 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 
-interface Props {
-    navigation: any,
-}
-
-export default class HomeScreen extends React.Component<Props> {
-    render() {
-        return(
-            <SafeAreaView style={{flex: 1}}>
-                <View style={styles.container}>
-                    <View style={styles.header}/>
-                        <TouchableOpacity style={styles.fabButton}
-                            onPress= {() => {
-                                this.props.navigation.navigate('profileScreen');
-                            }}
-                        />
-                    
-                    <View style={styles.mapContainer}>
-                        <Text style={{justifyContent: 'center'}}>
-                            Insert Map in this view
-                        </Text>
-                    </View>
+export default function HomeScreen({navigation}) {
+    return(
+        <SafeAreaView style={{flex: 1}}>
+            <View style={styles.container}>
+                <View style={styles.header}/>
+                    <TouchableOpacity style={styles.fabButton}
+                    />
+                
+                <View style={styles.mapContainer}>
+                    <Text style={{justifyContent: 'center'}}>
+                        Insert Map in this view
+                    </Text>
                 </View>
-            </SafeAreaView>
-        );
-    }
+            </View>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({

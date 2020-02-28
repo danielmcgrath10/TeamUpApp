@@ -1,20 +1,13 @@
 import React, {Component} from 'react';
 import {View, 
     Text, 
-    Picker, 
-    PickerItem, 
     StyleSheet, 
-    Button, 
     TouchableOpacity, 
     TextInput, 
-    KeyboardAvoidingView, 
     SafeAreaView, 
     Alert, 
     Image,
-    Keyboard
 } from 'react-native';
-import { Header, Input } from 'react-native-elements';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {sportList} from '../../shared/sportlist/sportList';
 import RNPickerSelect, {Item} from 'react-native-picker-select';
 
@@ -30,17 +23,30 @@ type stateValues ={
     DifficultyLevel: Item,
     NumPeople: Item
 }
-export default class AddGroup extends Component<propValues, stateValues> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            SportChoice: {label: 'Choose a Sport...', value: 'undefined'},
-            DifficultyLevel: {label: 'Select Difficulty Level...', value: 'Not Specified'},
-            NumPeople: {label: 'Number of People Desired...', value: 'Not Specified'}
-        };
-    }
+export default function AddGroup({navigation}) {
+    const [SportChoice, setSportChoice] = React.useState({label: 'Choose a Sport...', value: 'undefined'});
+    const [DifficultyLevel, setDifficultyLevel] = React.useState({label: 'Select Difficulty Level...', value: 'Not Specified'});
+    const [NumPeople, setNumPeople] = React.useState({label: 'Number of People Desired...', value: 'Not Specified'});
 
-    populateSportsDropdown(): Item[] {
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerTitle: () =>(
+                <Image style={{height: 30, width: 120}} source={require('../../shared/images/Icons/TeamUpEmblems/TEAMUPLOGO.png')}/>
+            ),
+            headerRight: () => (
+                <TouchableOpacity 
+                    style = {styles.submitButton}
+                    onPress={() => navigation.goBack()}
+                >
+                    <Text style={styles.headerSubmit}>
+                        Submit
+                    </Text>
+                </TouchableOpacity>
+            )
+        })
+    })
+
+    function populateSportsDropdown(): Item[] {
         let pickerList = [];
         sportList.sort().forEach(sport => {
             pickerList.push(
@@ -53,7 +59,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
         return pickerList;
     }
 
-    populateNumPeopleDropdown(): Item[] {
+    function populateNumPeopleDropdown(): Item[] {
         let pickerList = [];
         let num = 0;
         let desNum = 30;
@@ -68,119 +74,92 @@ export default class AddGroup extends Component<propValues, stateValues> {
         }
         return pickerList;
     }
+    return(
+        <SafeAreaView style={styles.container}>
+            <View style={styles.bodyContainer}>
+                <View style={styles.picker}>
+                    <RNPickerSelect
+                        style={{
+                            inputIOS: {
+                                color: 'black',
+                                fontSize: 20,
+                            }
+                        }}
+                        onValueChange={(value) => {
+                            if(value.value === 'undefined') {
+                                Alert.alert('Need to Choose a Sport')
+                            } else (
+                                setSportChoice(value.value)
+                            )
+                        }}
+                        items={populateSportsDropdown()}
+                        placeholder= {SportChoice}
+                    />
+                </View>
+                <View style={styles.picker}>
+                    <RNPickerSelect
+                        style={{
+                            inputIOS: {
+                                color: 'black',
+                                fontSize: 20,
+                            }
+                        }}
+                        placeholder= {DifficultyLevel}
+                        onValueChange={(value) => console.log(value)}
+                        items={[
+                            {
+                                label: 'Beginner',
+                                value: 'beginner'
+                            },
+                            {
+                                label: 'Intermediate',
+                                value: 'intermediate'
+                            },
+                            {
+                                label: 'Advanced',
+                                value: 'advanced'
+                            }
+                        ]}
+                    />
+                </View>
+                <View style={styles.picker}>
+                    <RNPickerSelect
+                        style={{
+                            inputIOS: {
+                                color: 'black',
+                                fontSize: 20,
+                            }
+                        }}
+                        placeholder={NumPeople}
+                        onValueChange={(value) => console.log(value)}
+                        items={populateNumPeopleDropdown()}
+                    />
+                </View>
 
-    render() {
-        return(
-            <SafeAreaView style={styles.container}>
-                <View style={styles.header}>
-                    <TouchableOpacity 
-                        style = {styles.cancelButton}
-                        onPress={() => this.props.navigation.goBack()}
+                <View style={styles.ButtonContainer}>
+                    <TouchableOpacity
+                        style = {{flex: 1, height: 60}}
+                        onPress={() => {
+                            console.log("you pressed use current")
+                        }}
                     >
-                        <Text style={styles.headerCancel}>
-                            Cancel
-                        </Text>
-                    </TouchableOpacity>
-                    <View style={styles.headerLogo}>
-                        <Image style={{height: 40, width: 160}} source={require('../../shared/images/Icons/TeamUpEmblems/TEAMUPLOGO.png')}/>
-                    </View>
-                    <TouchableOpacity 
-                        style = {styles.submitButton}
-                        onPress={() => this.props.navigation.goBack()}
-                    >
-                        <Text style={styles.headerCancel}>
-                            Submit
-                        </Text>
+                        <View style={styles.ButtonStyles}>
+                            <Text style={{color: '#535353', fontSize: 20}}>
+                                Choose Location
+                            </Text>
+                        </View>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.bodyContainer}>
-                    <View style={styles.picker}>
-                        <RNPickerSelect
-                            style={{
-                                inputIOS: {
-                                    color: 'black',
-                                    fontSize: 20,
-                                }
-                            }}
-                            onValueChange={(value) => {
-                                if(value.value === 'undefined') {
-                                    Alert.alert('Need to Choose a Sport')
-                                } else (
-                                    this.setState({SportChoice: value.value})
-                                )
-                            }}
-                            items={this.populateSportsDropdown()}
-                            placeholder= {this.state.SportChoice}
-                        />
-                    </View>
-                    <View style={styles.picker}>
-                        <RNPickerSelect
-                            style={{
-                                inputIOS: {
-                                    color: 'black',
-                                    fontSize: 20,
-                                }
-                            }}
-                            placeholder= {this.state.DifficultyLevel}
-                            onValueChange={(value) => console.log(value)}
-                            items={[
-                                {
-                                    label: 'Beginner',
-                                    value: 'beginner'
-                                },
-                                {
-                                    label: 'Intermediate',
-                                    value: 'intermediate'
-                                },
-                                {
-                                    label: 'Advanced',
-                                    value: 'advanced'
-                                }
-                            ]}
-                        />
-                    </View>
-                    <View style={styles.picker}>
-                        <RNPickerSelect
-                            style={{
-                                inputIOS: {
-                                    color: 'black',
-                                    fontSize: 20,
-                                }
-                            }}
-                            placeholder={this.state.NumPeople}
-                            onValueChange={(value) => console.log(value)}
-                            items={this.populateNumPeopleDropdown()}
-                        />
-                    </View>
-
-                    <View style={styles.ButtonContainer}>
-                        <TouchableOpacity
-                            style = {{flex: 1, height: 60}}
-                            onPress={() => {
-                                console.log("you pressed use current")
-                            }}
-                        >
-                            <View style={styles.ButtonStyles}>
-                                <Text style={{color: '#535353', fontSize: 20}}>
-                                    Choose Location
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.textBoxContainer}>
-                        <TextInput
-                            style={styles.textBox}
-                            placeholder={'Add Notes Here'}
-                            multiline = {true}
-                        />
-                    </View>
-                    {/* <View style={{flex:1, justifyContent: 'center', alignSelf:'center'}}>
-                        
-                    </View> */}
+                <View style={styles.textBoxContainer}>
+                    <TextInput
+                        style={styles.textBox}
+                        placeholder={'Add Notes Here'}
+                        multiline = {true}
+                    />
                 </View>
-            </SafeAreaView>
-        )
-    }
+            </View>
+        </SafeAreaView>
+    )
     
 }
 
@@ -288,12 +267,10 @@ const styles = StyleSheet.create({
         top: 20,
     },
     submitButton: {
-        position: 'absolute',
-        right: 20,
-        top: 20
+        right: 20
     },
-    headerCancel: {
+    headerSubmit: {
         fontSize: 19,
-        color: 'black',
+        color: '#007AFF',
     }    
 })
