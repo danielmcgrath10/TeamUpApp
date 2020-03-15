@@ -20,13 +20,12 @@ export default function GroupDetailScreen({route, navigation}) {
     const toCapitalize = (string: string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+
+    const handleListButtonClick = (e) => {
+        console.log(e);
+    }
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>
-                    {this.toCapitalize(this.state.group.sport)}
-                </Text>
-            </View>
             <View style={styles.body}>
                 <View style={styles.groupDetailTop}>
                     <View style={styles.groupImage}>
@@ -36,17 +35,17 @@ export default function GroupDetailScreen({route, navigation}) {
                 <View style={styles.groupDetailMiddle}>
                     <View style={styles.listContainer}>
                         {
-                            this.state.group.requests ? 
+                            group.requests ? 
                                 <FlatList
-                                    data={this.state.group.requests}
+                                    data={group.requests}
                                     renderItem={({item, index}) => (
                                         <ListItem
                                             key={index}
-                                            title={this.toCapitalize(item.name)}
+                                            title={toCapitalize(item.name)}
                                             subtitle={'Rating: ' + item.rating}
                                             rightElement={
                                                 <ButtonGroup 
-                                                    onPress={this.handleListButtonClick}
+                                                    onPress={handleListButtonClick}
                                                     buttons={['accept', 'deny']}
                                                     containerStyle={{width: 150}}
                                                 />
@@ -65,13 +64,14 @@ export default function GroupDetailScreen({route, navigation}) {
                 <View style={styles.groupDetailBottom}>
                     <View style={styles.listContainer}>
                         {
-                            this.state.group.requests ? 
+                            group.requests ? 
                                 <FlatList
-                                    data={this.state.group.playingCurrently}
+                                    data={group.playingCurrently}
                                     renderItem={({item, index}) => (
                                         <ListItem
                                             key={index}
-                                            title={this.toCapitalize(item.name)}
+                                            title={toCapitalize(item.name)}
+                                            subtitle={'Rating: ' + item.rating}
                                             bottomDivider
                                         />
                                     )}
