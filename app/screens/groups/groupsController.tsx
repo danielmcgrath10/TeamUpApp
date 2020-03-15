@@ -1,106 +1,103 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, SafeAreaView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Button, ScrollView, SafeAreaView, FlatList, Group } from 'react-native';
 import Icon  from 'react-native-vector-icons/Ionicons';
-import { Group } from '../../shared/groups/group';
 import { GroupList } from '../../shared/groups/mock-groups';
 import { ListItem } from 'react-native-elements';
 import { db } from '../../shared/Firebase';
 
-type Props = {
-    activeGroups: Group[],
-    requested: Group[],
-    navigation: any
-}
+export default function groupsController({navigation}){
+    const [activeGroups, setActiveGroups] = React.useState(null);
+    const [requestedGroups, setRequestedGroups] = React.useState(null);
 
-type groupState = {
-    activeGroups: Group[]
-}
+    React.useEffect(() => {
+        if(!activeGroups){
+            setActiveGroups(GroupList);
+        } 
+        if(!requestedGroups){
+            setRequestedGroups(GroupList);
+        }
+    })
 
-let groupsRef = db.collection("groups");
-
-export default class groupsController extends React.Component<Props, groupState> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            activeGroups: GroupList,
-        };
-    }
-
-    toCapitalize = (string: string) => {
+    const toCapitalize = (string: string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+    return(
+        <SafeAreaView style={styles.container}>
+            {
+                activeGroups ? 
+                    <FlatList
+                        data={GroupList}
+                        renderItem={({item, index}) => (
+                            <TouchableOpacity key={item.gameID}>
+                                <ListItem
+                                    leftAvatar={{icon: {name: 'person-outline'}}}
+                                    key={item.gameID}
+                                    title={toCapitalize(item.sport)}
+                                    subtitle={item.skillLevel? toCapitalize(item.skillLevel): null}
+                                    bottomDivider
+                                    onPress={() => navigation.navigate('GroupDetail', {
+                                        group: item
+                                    })}
+                                />
+                            </TouchableOpacity>
+                        )}
+                    />
 
-    render() {
-        return(
-            <SafeAreaView style={styles.container}>
-                <View style={styles.header}>
-                    <View style={styles.headerTextContainer}>
-                        <Text style={styles.headerText}>
-                            Group Activity
-                        </Text>
-                    </View>
-                    
-                    <TouchableOpacity 
-                        style={styles.addIcon}
-                        onPress={() => this.props.navigation.navigate('addGroup')}    
-                    >
-                        <Icon 
-                            name="ios-add"
-                            size = {35}
-                        />
-                    </TouchableOpacity>
-                    
-                </View>
-                {this.state.activeGroups ? 
-                        <FlatList
-                            data={this.state.activeGroups}
-                            renderItem={({item}) => (
-                                <TouchableOpacity>
-                                    <ListItem
-                                        key={item.userID}
-                                        title={this.toCapitalize(item.sport)}
-                                        subtitle={item.skillLevel? this.toCapitalize(item.skillLevel): null}
-                                        bottomDivider
-                                    />
-                                </TouchableOpacity>
-                            )}
-                        />
-
-                     :
+                :
                     <View style={styles.noInfoDisplay}>
                         <Text style={styles.noInfoDisplayText}>
                             No Group Activity to Display
                         </Text>
                     </View>
-                }
-            </SafeAreaView>
-        );
-    }
+            }
+            <TouchableOpacity 
+                style={styles.addIcon}
+                onPress={() => navigation.navigate('AddGroup')}    
+            >
+                <Icon 
+                    color='white'
+                    name="ios-add"
+                    size = {40}
+                    style={{fontWeight: '800'}}
+                />
+            </TouchableOpacity>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
+        display: 'flex',
         flex: 1,
         flexDirection: 'column',
     },
     header: {
+        display: 'flex',
         flex: 1,
         flexDirection: 'row',
+        justifyContent: 'center',
+        alignContent: 'flex-end',
         backgroundColor: '#f2f2f2',
-        maxHeight: 55,
+        minHeight: 50,
+        maxHeight: 50,
         width: '100%',
         borderBottomWidth: 2,
         borderBottomColor: 'darkgrey',
         marginBottom: 2,
     },
     addIcon: {
+        justifyContent: 'center',
+        alignItems: 'center',
         position: 'absolute',
+        width: 55,
+        height: 55,
+        backgroundColor: 'blue',
+        borderRadius: 100,
         right: 20,
-        top: 10,
+        bottom: 20,
+        elevation: 10,
     },
     headerTextContainer: {
-        marginRight: 'auto',
-        marginLeft: 'auto',
         marginTop: 'auto',
         marginBottom: 'auto',
     },

@@ -1,20 +1,13 @@
 import React, {Component} from 'react';
 import {View, 
     Text, 
-    Picker, 
-    PickerItem, 
     StyleSheet, 
-    Button, 
     TouchableOpacity, 
     TextInput, 
-    KeyboardAvoidingView, 
     SafeAreaView, 
     Alert, 
     Image,
-    Keyboard
 } from 'react-native';
-import { Header, Input } from 'react-native-elements';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {sportList} from '../../shared/sportlist/sportList';
 import RNPickerSelect, {Item} from 'react-native-picker-select';
 import { db } from '../../shared/Firebase';
@@ -40,21 +33,48 @@ type stateValues ={
     CurrentLongitude: number,
     Message: string
 }
-export default class AddGroup extends Component<propValues, stateValues> {
-    constructor(props) {
-        super(props);
-        this.state = {
-            SportChoice: {label: 'Choose a Sport...', value: 'undefined'},
-            DifficultyLevel: {label: 'Select Difficulty Level...', value: 'Not Specified'},
-            NumPeople: {label: 'Number of People Desired...', value: 'Not Specified'},
-            CurrentUser: "Mr. Placeholder", //Current user will be implemented once user login is implemented
-            CurrentLatitude: 69, //Latitude and Longitude will be implemented once maps and location data are implemented (https://reactnative.dev/docs/geolocation.html)
-            CurrentLongitude: 69,
-            Message: "No Notes"
-        };
+export default function AddGroup({navigation}) {
+    const [SportChoice, setSportChoice] = React.useState({label: 'Choose a Sport...', value: 'undefined'});
+    const [DifficultyLevel, setDifficultyLevel] = React.useState({label: 'Select Difficulty Level...', value: 'Not Specified'});
+    const [NumPeople, setNumPeople] = React.useState({label: 'Number of People Desired...', value: 'Not Specified'});
+
+    function writeGroupToFirestore(): Promise<void> {
+        let newDoc = db.collection("groups").doc("testGroup");
+        //let geoPnt = new firestore.GeoPoint(this.state.CurrentLatitude, this.state.CurrentLongitude);
+        let setGroup = newDoc.set({
+            active: true,
+            //message: this.state.Message,
+            openSpots: this.state.NumPeople.value,
+            playingCurrently: [], //people will be added to this array as they join the game
+            //region: geoPnt,
+            //latDelta: 1,
+            //lonDelta: 1,
+            skillLevel: this.state.DifficultyLevel.value,
+            sport: this.state.SportChoice.value,
+            //userId: this.state.CurrentUser,
+        });
+        return setGroup
     }
 
-    populateSportsDropdown(): Item[] {
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerTitle: () =>(
+                <Image style={{height: 30, width: 120}} source={require('../../shared/images/Icons/TeamUpEmblems/TEAMUPLOGO.png')}/>
+            ),
+            headerRight: () => (
+                <TouchableOpacity 
+                    style = {styles.submitButton}
+                    onPress={() => navigation.goBack()}
+                >
+                    <Text style={styles.headerSubmit}>
+                        Submit
+                    </Text>
+                </TouchableOpacity>
+            )
+        })
+    })
+
+    function populateSportsDropdown(): Item[] {
         let pickerList = [];
         sportList.sort().forEach(sport => {
             pickerList.push(
@@ -67,7 +87,7 @@ export default class AddGroup extends Component<propValues, stateValues> {
         return pickerList;
     }
 
-    populateNumPeopleDropdown(): Item[] {
+    function populateNumPeopleDropdown(): Item[] {
         let pickerList = [];
         let num = 0;
         let desNum = 30;
@@ -82,157 +102,93 @@ export default class AddGroup extends Component<propValues, stateValues> {
         }
         return pickerList;
     }
-    writeGroupToFirestore(): Promise<void> {
-        let newDoc = db.collection("groups").doc("testGroup");
-        let geoPnt = new firestore.GeoPoint(this.state.CurrentLatitude, this.state.CurrentLongitude);
-        let setGroup = newDoc.set({
-            active: true,
-            message: this.state.Message,
-            openSpots: this.state.NumPeople.value,
-            playingCurrently: [], //people will be added to this array as they join the game
-            region: geoPnt,
-            latDelta: 1,
-            lonDelta: 1,
-            skillLevel: this.state.DifficultyLevel.value,
-            sport: this.state.SportChoice.value,
-            userId: this.state.CurrentUser,
-        });
-        this.props.navigation.goBack(); //this works, which surprises me. the ".then" and ".catch" statements still run and navigation goes back. its beautiful
-        return setGroup
-    }
+    
+    return(
+        <SafeAreaView style={styles.container}>
+            <View style={styles.bodyContainer}>
+                <View style={styles.picker}>
+                    <RNPickerSelect
+                        style={{
+                            inputIOS: {
+                                color: 'black',
+                                fontSize: 20,
+                            }
+                        }}
+                        onValueChange={(value) => {
+                            if(value.value === 'undefined') {
+                                Alert.alert('Need to Choose a Sport')
+                            } else (
+                                setSportChoice(value.value)
+                            )
+                        }}
+                        items={populateSportsDropdown()}
+                        placeholder= {SportChoice}
+                    />
+                </View>
+                <View style={styles.picker}>
+                    <RNPickerSelect
+                        style={{
+                            inputIOS: {
+                                color: 'black',
+                                fontSize: 20,
+                            }
+                        }}
+                        placeholder= {DifficultyLevel}
+                        onValueChange={(value) => console.log(value)}
+                        items={[
+                            {
+                                label: 'Beginner',
+                                value: 'beginner'
+                            },
+                            {
+                                label: 'Intermediate',
+                                value: 'intermediate'
+                            },
+                            {
+                                label: 'Advanced',
+                                value: 'advanced'
+                            }
+                        ]}
+                    />
+                </View>
+                <View style={styles.picker}>
+                    <RNPickerSelect
+                        style={{
+                            inputIOS: {
+                                color: 'black',
+                                fontSize: 20,
+                            }
+                        }}
+                        placeholder={NumPeople}
+                        onValueChange={(value) => console.log(value)}
+                        items={populateNumPeopleDropdown()}
+                    />
+                </View>
 
-    render() {
-        return(
-            <SafeAreaView style={styles.container}>
-                <View style={styles.header}>
-                    <TouchableOpacity 
-                        style = {styles.cancelButton}
-                        onPress={() => this.props.navigation.goBack()}
+                <View style={styles.ButtonContainer}>
+                    <TouchableOpacity
+                        style = {{flex: 1, height: 60}}
+                        onPress={() => {
+                            console.log("you pressed use current")
+                        }}
                     >
-                        <Text style={styles.headerCancel}>
-                            Cancel
-                        </Text>
-                    </TouchableOpacity>
-                    <View style={styles.headerLogo}>
-                        <Image style={{height: 40, width: 160}} source={require('../../shared/images/Icons/TeamUpEmblems/TEAMUPLOGO.png')}/>
-                    </View>
-                    <TouchableOpacity 
-                        style = {styles.submitButton}
-                        //onPress={() => this.props.navigation.goBack()
-                        onPress={() => 
-                            this.writeGroupToFirestore()
-                            .then(function() {
-                                console.log("Group Written Successfully!");
-                            })
-                            .catch(function(error) {
-                                console.error("Error writing document: ", error);
-                            })
-                            
-                        }
-                    >
-                        <Text style={styles.headerCancel}>
-                            Submit
-                        </Text>
+                        <View style={styles.ButtonStyles}>
+                            <Text style={{color: '#535353', fontSize: 20}}>
+                                Choose Location
+                            </Text>
+                        </View>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.bodyContainer}>
-                    <View style={styles.picker}>
-                        <RNPickerSelect
-                            style={{
-                                inputIOS: {
-                                    color: 'black',
-                                    fontSize: 20,
-                                }
-                            }}
-                            onValueChange={(value) => { //overuse of variable names. if the value of the RN picker is "value" then the name of the data in the state variables shouldn't be "value"
-                                if(value.value === 'undefined') { //I believe 'value.value' is wrong and returns an undefined value
-                                    Alert.alert('Need to Choose a Sport') //This alert should occur when the submit button is pressed, I can't get this alert to trigger
-                                } else {
-                                    this.setState({SportChoice: {label: value, value: value}}) //again, why have the 'label' in the data type if its never used
-                                    console.log(this.state.SportChoice)
-                                }
-                            }}
-                            items={this.populateSportsDropdown()}
-                            placeholder= {this.state.SportChoice}
-                        />
-                    </View>
-                    <View style={styles.picker}>
-                        <RNPickerSelect
-                            style={{
-                                inputIOS: {
-                                    color: 'black',
-                                    fontSize: 20,
-                                }
-                            }}
-                            placeholder= {this.state.DifficultyLevel}
-                            onValueChange={(value) => {
-                                this.setState({DifficultyLevel: {label: value, value: value}})
-                                console.log(this.state.DifficultyLevel)
-                            }}
-                            items={[
-                                {
-                                    label: 'Beginner',
-                                    value: 'beginner'
-                                },
-                                {
-                                    label: 'Intermediate',
-                                    value: 'intermediate'
-                                },
-                                {
-                                    label: 'Advanced',
-                                    value: 'advanced'
-                                }
-                            ]}
-                        />
-                    </View>
-                    <View style={styles.picker}>
-                        <RNPickerSelect
-                            style={{
-                                inputIOS: {
-                                    color: 'black',
-                                    fontSize: 20,
-                                }
-                            }}
-                            placeholder={this.state.NumPeople}
-                            onValueChange={(value) => {
-                                this.setState({NumPeople: {label: value, value: value}})
-                                console.log(this.state.NumPeople)
-                            }}
-                            items={this.populateNumPeopleDropdown()}
-                        />
-                    </View>
-
-                    <View style={styles.ButtonContainer}>
-                        <TouchableOpacity
-                            style = {{flex: 1, height: 60}}
-                            onPress={() => {
-                                console.log("you pressed use current")
-                            }}
-                        >
-                            <View style={styles.ButtonStyles}>
-                                <Text style={{color: '#535353', fontSize: 20}}>
-                                    Choose Location
-                                </Text>
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.textBoxContainer}>
-                        <TextInput
-                            style={styles.textBox}
-                            placeholder={'Add Notes Here'}
-                            multiline = {true}
-                            onChangeText={text => {
-                                this.setState({Message : text})
-                            }}
-                        />
-                    </View>
-                    {/* <View style={{flex:1, justifyContent: 'center', alignSelf:'center'}}>
-                        
-                    </View> */}
+                <View style={styles.textBoxContainer}>
+                    <TextInput
+                        style={styles.textBox}
+                        placeholder={'Add Notes Here'}
+                        multiline = {true}
+                    />
                 </View>
-            </SafeAreaView>
-        )
-    }
+            </View>
+        </SafeAreaView>
+    )
     
 }
 
@@ -340,12 +296,10 @@ const styles = StyleSheet.create({
         top: 20,
     },
     submitButton: {
-        position: 'absolute',
-        right: 20,
-        top: 20
+        right: 20
     },
-    headerCancel: {
+    headerSubmit: {
         fontSize: 19,
-        color: 'black',
+        color: '#007AFF',
     }    
 })
