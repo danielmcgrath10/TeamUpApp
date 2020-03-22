@@ -37,19 +37,20 @@ export default function AddGroup({navigation}) {
     const [SportChoice, setSportChoice] = React.useState({label: 'Choose a Sport...', value: 'undefined'});
     const [DifficultyLevel, setDifficultyLevel] = React.useState({label: 'Select Difficulty Level...', value: 'Not Specified'});
     const [NumPeople, setNumPeople] = React.useState({label: 'Number of People Desired...', value: 'Not Specified'});
-    
-    
+    const [Message, setMessage] = React.useState({value: ''})
+
     //navigation.goBack()
     React.useLayoutEffect(() => {
         function writeGroupToFirestore(): Promise<void> {
-            let newDoc = db.collection("groups").doc("testGroup");
-            //let geoPnt = new firestore.GeoPoint(this.state.CurrentLatitude, this.state.CurrentLongitude);
+            var groupName = SportChoice.value + ", " + DifficultyLevel.value;
+            let newDoc = db.collection("groups").doc(groupName);
+            let geoPnt = new firestore.GeoPoint(69, 69); //PLACEHOLDER VALUES FOR GPNT
             let setGroup = newDoc.set({
                 active: true,
-                //message: this.state.Message,
+                message: Message.value,
                 openSpots: NumPeople.value,
                 playingCurrently: [], //people will be added to this array as they join the game
-                //region: geoPnt,
+                region: geoPnt,
                 //latDelta: 1,
                 //lonDelta: 1,
                 skillLevel: DifficultyLevel.value,
@@ -197,6 +198,8 @@ export default function AddGroup({navigation}) {
                         style={styles.textBox}
                         placeholder={'Add Notes Here'}
                         multiline = {true}
+
+                        onChangeText={(value) => setMessage({value: value})}
                     />
                 </View>
             </View>
