@@ -42,7 +42,7 @@ export default function AddGroup({navigation}) {
     //navigation.goBack()
     React.useLayoutEffect(() => {
         function writeGroupToFirestore(): Promise<void> {
-            var groupName = SportChoice.value + ", " + DifficultyLevel.value;
+            var groupName = SportChoice.value + ": " + DifficultyLevel.value;
             let newDoc = db.collection("groups").doc(groupName);
             let geoPnt = new firestore.GeoPoint(69, 69); //PLACEHOLDER VALUES FOR GPNT
             let setGroup = newDoc.set({
@@ -152,15 +152,15 @@ export default function AddGroup({navigation}) {
                         items={[
                             {
                                 label: 'Beginner',
-                                value: 'beginner'
+                                value: 'Beginner'
                             },
                             {
                                 label: 'Intermediate',
-                                value: 'intermediate'
+                                value: 'Intermediate'
                             },
                             {
                                 label: 'Advanced',
-                                value: 'advanced'
+                                value: 'Advanced'
                             }
                         ]}
                     />
