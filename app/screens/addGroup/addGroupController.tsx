@@ -37,26 +37,28 @@ export default function AddGroup({navigation}) {
     const [SportChoice, setSportChoice] = React.useState({label: 'Choose a Sport...', value: 'undefined'});
     const [DifficultyLevel, setDifficultyLevel] = React.useState({label: 'Select Difficulty Level...', value: 'Not Specified'});
     const [NumPeople, setNumPeople] = React.useState({label: 'Number of People Desired...', value: 'Not Specified'});
-
-    function writeGroupToFirestore(): Promise<void> {
-        let newDoc = db.collection("groups").doc("testGroup");
-        //let geoPnt = new firestore.GeoPoint(this.state.CurrentLatitude, this.state.CurrentLongitude);
-        let setGroup = newDoc.set({
-            active: true,
-            //message: this.state.Message,
-            openSpots: this.state.NumPeople.value,
-            playingCurrently: [], //people will be added to this array as they join the game
-            //region: geoPnt,
-            //latDelta: 1,
-            //lonDelta: 1,
-            skillLevel: this.state.DifficultyLevel.value,
-            sport: this.state.SportChoice.value,
-            //userId: this.state.CurrentUser,
-        });
-        return setGroup
-    }
-
+    
+    
+    //navigation.goBack()
     React.useLayoutEffect(() => {
+        function writeGroupToFirestore(): Promise<void> {
+            let newDoc = db.collection("groups").doc("testGroup");
+            //let geoPnt = new firestore.GeoPoint(this.state.CurrentLatitude, this.state.CurrentLongitude);
+            let setGroup = newDoc.set({
+                active: true,
+                //message: this.state.Message,
+                openSpots: NumPeople.value,
+                playingCurrently: [], //people will be added to this array as they join the game
+                //region: geoPnt,
+                //latDelta: 1,
+                //lonDelta: 1,
+                skillLevel: DifficultyLevel.value,
+                sport: SportChoice.value,
+                //userId: this.state.CurrentUser,
+            });
+            return setGroup
+        }
+
         navigation.setOptions({
             headerTitle: () =>(
                 <Image style={{height: 30, width: 120}} source={require('../../shared/images/Icons/TeamUpEmblems/TEAMUPLOGO.png')}/>
@@ -64,7 +66,15 @@ export default function AddGroup({navigation}) {
             headerRight: () => (
                 <TouchableOpacity 
                     style = {styles.submitButton}
-                    onPress={() => navigation.goBack()}
+                    onPress={() => 
+                        writeGroupToFirestore()
+                        .then(function(){
+                            console.log("Group Written Successfully");
+                        })
+                        .catch(function(error) {
+                            console.error("Error writing document: ", error);
+                        })
+                    }
                 >
                     <Text style={styles.headerSubmit}>
                         Submit
@@ -114,11 +124,11 @@ export default function AddGroup({navigation}) {
                                 fontSize: 20,
                             }
                         }}
-                        onValueChange={(value) => {
-                            if(value.value === 'undefined') {
+                        onValueChange={(value, index) => {
+                            if(value === 'undefined') {
                                 Alert.alert('Need to Choose a Sport')
                             } else (
-                                setSportChoice(value.value)
+                                setSportChoice({label: value, value: value})
                             )
                         }}
                         items={populateSportsDropdown()}
@@ -134,7 +144,10 @@ export default function AddGroup({navigation}) {
                             }
                         }}
                         placeholder= {DifficultyLevel}
-                        onValueChange={(value) => console.log(value)}
+                        onValueChange={(value) => {
+                            console.log(value)
+                            setDifficultyLevel({label: value, value: value})
+                        }}
                         items={[
                             {
                                 label: 'Beginner',
