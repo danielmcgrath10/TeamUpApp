@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import SplashScreen from './screens/splashScreen/splashScreen'
 import ProfileScreen from './screens/profile/profileScreen';
 import groupsController from './screens/groups/groupsController';
 import AddGroup from './screens/addGroup/addGroupController';
@@ -25,6 +26,7 @@ function GroupFlow() {
 }
 
 const MainTab = createBottomTabNavigator();
+
 function MainApp() {
   
   return(
@@ -59,7 +61,8 @@ export default function App(){
   return(
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator headerMode={'none'} >
+        <Stack.Navigator initialRouteName={'SplashScreen'} headerMode={'none'} > 
+            <Stack.Screen name={'SplashScreen'} component={SplashScreen}/>
             <Stack.Screen name={'MainApp'} component={MainApp}/>
         </Stack.Navigator>
       </NavigationContainer>
