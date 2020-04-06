@@ -14,6 +14,6 @@ export default function SplashScreen({navigation}) {
 
         </SafeAreaView>
 
-        
+       
     )
 }
