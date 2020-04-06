@@ -1,15 +1,15 @@
 //les go babee
 import React, {Component} from 'react';
-import {View, Text, SafeAreaView} from 'react-native';
+import {View, Image, SafeAreaView} from 'react-native';
 
-export default function SplashScreen({navigation}) {
+export default function PostSplash({navigation}) {
     setTimeout(() => {navigation.navigate('MainApp')}, 1000)
     return(
         <SafeAreaView style = {{flex: 1}}>
             <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                <Text style = {{justifyContent: 'center'}}>
-                    Splash Screen
-                </Text>
+            
+            <Image style={{height: 200, width: 200}} source={require('../../shared/images/Icons/TeamUpEmblems/TeamUpIcon@600.png')}/>
+
             </View>
 
         </SafeAreaView>

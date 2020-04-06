@@ -3,10 +3,11 @@ import * as React from 'react';
 import {StatusBar} from 'react-native';
 import HomeScreen from './screens/homeScreen/homeScreen';
 import {NavigationContainer} from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, CardAnimationContext } from '@react-navigation/stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import SplashScreen from './screens/splashScreen/splashScreen'
+import SplashScreen from 'react-native-splash-screen'
+import PostSplash from './screens/splashScreen/postSplash'
 import ProfileScreen from './screens/profile/profileScreen';
 import groupsController from './screens/groups/groupsController';
 import AddGroup from './screens/addGroup/addGroupController';
@@ -59,11 +60,17 @@ function MainApp() {
 const Stack = createStackNavigator();
 
 export default function App(){
+  React.useEffect(() => {
+    
+    //Anything worth doing while splashscreen is up
+    
+    SplashScreen.hide()});
+
   return(
     <SafeAreaProvider>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={'SplashScreen'} headerMode={'none'} > 
-            <Stack.Screen name={'SplashScreen'} component={SplashScreen}/>
+        <Stack.Navigator initialRouteName={'MainApp'} headerMode={'none'} > 
+            {/* <Stack.Screen name={'PostSplash'} component={PostSplash}/> */}
             <Stack.Screen name={'MainApp'} component={MainApp}/>
         </Stack.Navigator>
       </NavigationContainer>
