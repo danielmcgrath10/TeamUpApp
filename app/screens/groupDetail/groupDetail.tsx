@@ -1,18 +1,29 @@
-import React, {Component} from 'react';
-import { View, StyleSheet, SafeAreaView, Image, FlatList, Button, SectionList, TouchableOpacity } from 'react-native';
+import React, {Component, useState} from 'react';
+import { View, StyleSheet, SafeAreaView, Image, FlatList, Button, SectionList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Group } from '../../shared/groups/group';
 import {Text, ListItem, ButtonGroup} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function GroupDetailScreen({route, navigation}) {
     const {group} = route.params;
+    const [loading, setLoading] = useState(false);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerTitle: () =>(
                 <Text style={styles.headerText}>
                     {toCapitalize(group.sport)}
-                </Text>
+             43   </Text>
+            ),
+            headerRight: () => (
+                <TouchableOpacity
+                    style={{marginRight: 20}}
+                >
+                    <Icon
+                        name={'md-settings'}
+                        size={30}
+                    />
+                </TouchableOpacity>
             )
         })
     })
@@ -24,6 +35,15 @@ export default function GroupDetailScreen({route, navigation}) {
     const handleListButtonClick = (e) => {
         console.log(e);
     }
+
+    // if(loading){
+        // return(
+        //     <SafeAreaView style={styles.container}>
+        //         <ActivityIndicator style={{marginTop: 20}} size={'large'}/>
+        //     </SafeAreaView>
+        // )
+    // }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.body}>
@@ -32,48 +52,75 @@ export default function GroupDetailScreen({route, navigation}) {
                     
                     </View>
                 </View>
-                <View style={styles.groupDetailMiddle}>
-                    <View style={styles.listContainer}>
-                        {
-                            group.requests ? 
-                                <FlatList
-                                    data={group.requests}
-                                    renderItem={({item, index}) => (
-                                        <ListItem
-                                            key={index}
-                                            title={toCapitalize(item.name)}
-                                            subtitle={'Rating: ' + item.rating}
-                                            rightElement={
-                                                <ButtonGroup 
-                                                    onPress={handleListButtonClick}
-                                                    buttons={['accept', 'deny']}
-                                                    containerStyle={{width: 150}}
+                {
+                    group.message ? 
+                        <View style={styles.summarySection}>
+                            <Text style={styles.summaryText}>
+                                {group.message}
+                            </Text>
+                        </View>
+                    : 
+                        <></>
+                }
+                {
+                    group.requests ?
+                        <View style={styles.groupDetailMiddle}>
+                            <View style={styles.listContainer}>
+                                {
+                                    group.requests ? 
+                                        <FlatList
+                                            data={group.requests}
+                                            renderItem={({item, index}) => (
+                                                <ListItem
+                                                    key={index}
+                                                    style={styles.reqList}
+                                                    title={toCapitalize(item.name)}
+                                                    subtitle={'Rating: ' + item.rating}
+                                                    rightElement={
+                                                        <ButtonGroup 
+                                                            onPress={handleListButtonClick}
+                                                            buttons={['accept', 'deny']}
+                                                            containerStyle={{width: 150}}
+                                                        />
+                                                    }
+                                                    bottomDivider
                                                 />
-                                            }
-                                            bottomDivider
+                                            )}
                                         />
-                                    )}
-                                />
-                            : 
-                                <Text style={styles.noRequestText}>
-                                    Currently No Requests
-                                </Text>  
-                        }
-                    </View>
-                </View>
+                                    : 
+                                        <Text style={styles.noRequestText}>
+                                            Currently No Requests
+                                        </Text>  
+                                }
+                            </View>
+                        </View>
+                    :
+                        null
+                }
                 <View style={styles.groupDetailBottom}>
                     <View style={styles.listContainer}>
                         {
-                            group.requests ? 
+                            group.playingCurrently ? 
                                 <FlatList
                                     data={group.playingCurrently}
                                     renderItem={({item, index}) => (
-                                        <ListItem
-                                            key={index}
-                                            title={toCapitalize(item.name)}
-                                            subtitle={'Rating: ' + item.rating}
-                                            bottomDivider
-                                        />
+                                        <TouchableOpacity
+                                            // onPress={() => {
+                                            //     navigation.navigate(
+                                            //         'Profile',
+                                            //         {
+                                            //             profile: item
+                                            //         }
+                                            //     )
+                                            // }}
+                                        >
+                                            <ListItem
+                                                key={index}
+                                                title={toCapitalize(item.name)}
+                                                subtitle={'Rating: ' + item.rating}
+                                                bottomDivider
+                                            />
+                                        </TouchableOpacity>
                                     )}
                                 />
                             : 
@@ -151,6 +198,19 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         backgroundColor: 'white',
     },
+    summarySection: {
+        display: 'flex',
+        flexDirection: 'column',
+        margin: 15,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    summaryText: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        fontSize: 18
+    },
     listContainer: {
         display: 'flex',
         margin: 10,
@@ -159,7 +219,12 @@ const styles = StyleSheet.create({
         borderColor: 'lightgrey',
         borderWidth: 1,
         height: '98%',
-        padding: 5
+        padding: 5,
+        borderRadius: 5
+    },
+    reqList: {
+        display: 'flex',
+        margin: 0,
     },
     noRequestText: {
         display: 'flex',
