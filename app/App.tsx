@@ -18,7 +18,7 @@ function GroupFlow() {
   return(
     <GroupStack.Navigator headerMode={'screen'} initialRouteName={'GroupList'}>
       <GroupStack.Screen name={'Groups'} component={groupsController}/>
-      <GroupStack.Screen name={'AddGroup'} component={AddGroup}/>
+      <GroupStack.Screen name={'AddGroup'} component={AddGroup} options={{gestureEnabled: false}}/>
       <GroupStack.Screen name={'GroupDetail'} component={GroupDetailScreen} />
     </GroupStack.Navigator>
   );
