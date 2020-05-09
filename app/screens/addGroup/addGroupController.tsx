@@ -7,61 +7,59 @@ import {View,
     SafeAreaView, 
     Alert, 
     Image,
+    KeyboardAvoidingView,
+    Platform,
+    ActivityIndicator,
 } from 'react-native';
 import {sportList} from '../../shared/sportlist/sportList';
 import RNPickerSelect, {Item} from 'react-native-picker-select';
+import { ButtonGroup, Icon } from 'react-native-elements';
+import Spinner from 'react-native-loading-spinner-overlay';
 
-type propValues = {
-    SportChoice: string,
-    DifficultyLevel: string,
-    NumPeople: number,
-    navigation: any
-}
-
-type stateValues ={
-    SportChoice: Item,
-    DifficultyLevel: Item,
-    NumPeople: Item
-}
 export default function AddGroup({navigation}) {
-    const [SportChoice, setSportChoice] = React.useState({label: 'Choose a Sport...', value: 'undefined'});
-    const [DifficultyLevel, setDifficultyLevel] = React.useState({label: 'Select Difficulty Level...', value: 'Not Specified'});
-    const [NumPeople, setNumPeople] = React.useState({label: 'Number of People Desired...', value: 'Not Specified'});
+    const [activity, onChangeActivity] = React.useState(null);
+    const [numPeople, setNumPeople] = React.useState(null);
+    const [eventText, onChangeEventText] = React.useState(null);
+    const [buttonIndex, onChangeButtonIndex] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
-            headerTitle: () =>(
-                <Image style={{height: 30, width: 120}} source={require('../../shared/images/Icons/TeamUpEmblems/TEAMUPLOGO.png')}/>
-            ),
-            headerRight: () => (
+            headerLeft: () => (
                 <TouchableOpacity 
-                    style = {styles.submitButton}
-                    onPress={() => navigation.goBack()}
+                    style={styles.cancelButton}
+                    onPress={() => {
+                        Alert.alert(
+                            "Are You Sure?",
+                            "Cancelling now will lose any changes",
+                            [
+                                {
+                                    text: 'Cancel',
+                                },
+                                {
+                                    text: 'Accept',
+                                    onPress: () => {
+                                        navigation.goBack()
+                                    }
+                                }
+                            ]
+                        )
+                    }}
                 >
-                    <Text style={styles.headerSubmit}>
-                        Submit
+                    <Text style={styles.headerCancel}>
+                        Cancel
                     </Text>
                 </TouchableOpacity>
+            ),
+            headerTitle: () =>(
+                <Image style={{height: 30, width: 120}} source={require('../../shared/images/Icons/TeamUpEmblems/TEAMUPLOGO.png')}/>
             )
         })
     })
 
-    function populateSportsDropdown(): Item[] {
+    function populateNumPeople(): Item[] {
         let pickerList = [];
-        sportList.sort().forEach(sport => {
-            pickerList.push(
-                {
-                    label: sport,
-                    value: sport
-                }
-            )    
-        });
-        return pickerList;
-    }
-
-    function populateNumPeopleDropdown(): Item[] {
-        let pickerList = [];
-        let num = 0;
+        let num = 1;
         let desNum = 30;
         while (num < desNum) {
             pickerList.push(
@@ -74,90 +72,75 @@ export default function AddGroup({navigation}) {
         }
         return pickerList;
     }
+
+    // Input Firebase Call here!
+    const handleSubmit = () => {
+        setLoading(false);
+        
+    }
+
     return(
         <SafeAreaView style={styles.container}>
-            <View style={styles.bodyContainer}>
-                <View style={styles.picker}>
-                    <RNPickerSelect
-                        style={{
-                            inputIOS: {
-                                color: 'black',
-                                fontSize: 20,
-                            }
-                        }}
-                        onValueChange={(value) => {
-                            if(value.value === 'undefined') {
-                                Alert.alert('Need to Choose a Sport')
-                            } else (
-                                setSportChoice(value.value)
-                            )
-                        }}
-                        items={populateSportsDropdown()}
-                        placeholder= {SportChoice}
-                    />
-                </View>
-                <View style={styles.picker}>
-                    <RNPickerSelect
-                        style={{
-                            inputIOS: {
-                                color: 'black',
-                                fontSize: 20,
-                            }
-                        }}
-                        placeholder= {DifficultyLevel}
-                        onValueChange={(value) => console.log(value)}
-                        items={[
-                            {
-                                label: 'Beginner',
-                                value: 'beginner'
-                            },
-                            {
-                                label: 'Intermediate',
-                                value: 'intermediate'
-                            },
-                            {
-                                label: 'Advanced',
-                                value: 'advanced'
-                            }
-                        ]}
-                    />
-                </View>
-                <View style={styles.picker}>
-                    <RNPickerSelect
-                        style={{
-                            inputIOS: {
-                                color: 'black',
-                                fontSize: 20,
-                            }
-                        }}
-                        placeholder={NumPeople}
-                        onValueChange={(value) => console.log(value)}
-                        items={populateNumPeopleDropdown()}
-                    />
-                </View>
-
-                <View style={styles.ButtonContainer}>
-                    <TouchableOpacity
-                        style = {{flex: 1, height: 60}}
-                        onPress={() => {
-                            console.log("you pressed use current")
-                        }}
-                    >
-                        <View style={styles.ButtonStyles}>
-                            <Text style={{color: '#535353', fontSize: 20}}>
-                                Choose Location
-                            </Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.textBoxContainer}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+                style={styles.container}
+            >
+                <View style={styles.secondaryContainer}>
                     <TextInput
-                        style={styles.textBox}
-                        placeholder={'Add Notes Here'}
-                        multiline = {true}
+                        style={styles.activityInput}
+                        onChangeText={text => onChangeActivity(text)}
+                        value={activity}
+                        placeholder={'Please Input an Activity...'}
+                        placeholderTextColor={'grey'}
+                    />
+                    <TouchableOpacity
+                        style={styles.locationSelect}
+                    >
+                        <Text style={styles.locationSelectText}>
+                            Select Location
+                        </Text>
+                    </TouchableOpacity>
+                    <ButtonGroup
+                        onPress={(val) => onChangeButtonIndex(val)}
+                        selectedIndex={buttonIndex}
+                        buttons={['Easy', 'Intermediate', 'Advanced']}
+                        containerStyle={{height: 50, borderColor: 'grey', borderWidth: 0.5, borderRadius: 10, width: '90%', alignSelf: 'center'}}
+                    />
+                    <RNPickerSelect
+                        style={pickerStyles}
+                        placeholder={
+                            {
+                                label: "Select Number of People ...",
+                                value: undefined,
+                                color: 'grey'
+                            }
+                        }
+                        onValueChange={(val) => setNumPeople(val ? val.value : null)}
+                        items={populateNumPeople()}
+                    />
+                    <TextInput
+                        multiline
+                        blurOnSubmit={true}
+                        style={styles.commentInput}
+                        placeholder={'Include Any Comments Here ...'}
+                        numberOfLines = {5}
+                        onChangeText={text => onChangeEventText(text)}
+                        value={eventText}
+                        placeholderTextColor={'grey'}
                     />
                 </View>
-            </View>
+                <TouchableOpacity 
+                    style = {styles.submitButton}
+                    onPress={handleSubmit}
+                >
+                    <Text style={styles.headerSubmit}>
+                        Submit
+                    </Text>
+                </TouchableOpacity>
+                {/* <Spinner
+                    visible={loading}
+                /> */}
+            </KeyboardAvoidingView>
         </SafeAreaView>
     )
     
@@ -168,79 +151,12 @@ const styles = StyleSheet.create({
         flex: 1,
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between'
     },
-    picker: {
-        flex: 1,
-        justifyContent: 'center',
-        borderColor: '#535353',
-        marginTop: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        padding: 5,
-        borderWidth: 1,
-        // shadowColor: '#8e2224',
-        shadowOffset: {
-        width: 1.5,
-        height: 5
-        },
-        shadowRadius: 2,
-        shadowOpacity: 0.05
-    },
-    textBox: {
-        flex: 1,
-        paddingLeft: 10,
-        fontSize: 20,
-    },
-    ButtonContainer: {
-        flex: 1,
-        display: 'flex',
-    },
-    ButtonStyles: {
-        flex: 1,
-        padding: 10,
-        marginTop: 10,
-        marginLeft: 10,
-        marginRight: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: '#535353',
-        borderWidth: 1,
-        backgroundColor: 'white',
-        borderRadius: 10,
-        // shadowColor: '#8e2224',
-        shadowOffset: {
-            width: 1.5,
-            height: 5
-        },
-        shadowRadius: 2,
-        shadowOpacity: 0.05
-    },
-    bodyContainer: {
-        flex: 1,
+    secondaryContainer: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-start',
-        backgroundColor: 'white',
-    },
-    textBoxContainer: {
-        flex: 7,
-        display: 'flex',
-        justifyContent: 'center',
-        borderColor: '#535353',
-        borderWidth: 1,
-        borderRadius: 10,
-        margin: 10,
-        backgroundColor: 'white',
-        // shadowColor: '#8e2224',
-        shadowOffset: {
-            width: 1.5,
-            height: 5
-        },
-        shadowRadius: 2,
-        shadowOpacity: 0.05
+        marginTop: 10
     },
     header: {
         height: 60,
@@ -262,15 +178,103 @@ const styles = StyleSheet.create({
         marginBottom: 'auto',
     },
     cancelButton: {
-        position: 'absolute',
-        left: 20,
-        top: 20,
+        marginLeft: 20
     },
     submitButton: {
-        right: 20
+        display: 'flex',
+        width: '90%',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignContent: 'center',
+        backgroundColor: 'white',
+        borderColor: '#007AFF',
+        borderWidth: 0.25,
+        margin: 10,
+        padding: 15,
+        borderRadius: 10
     },
     headerSubmit: {
+        fontSize: 20,
+        color: '#007AFF',
+        alignSelf: 'center'
+    },
+    headerCancel: {
         fontSize: 19,
         color: '#007AFF',
-    }    
+        alignSelf: 'center'
+    },
+    activityInput: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        fontSize: 20,
+        padding: 15,
+        margin: 10,
+        width: '90%',
+        borderColor: 'grey',
+        borderWidth: 0.25,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        color: '#464646'
+    },
+    locationSelect: {
+        display: 'flex',
+        borderWidth: 0.5,
+        borderColor: 'grey',
+        width: '90%',
+        alignSelf: 'center',
+        borderRadius: 10,
+        backgroundColor: 'white',
+        margin: 10,
+        padding: 15,
+        color: '#464646'
+    },
+    locationSelectText: {
+        display: 'flex',
+        color: '#464646',
+        fontSize: 20,
+        alignSelf: 'center'
+    },
+    commentInput: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignSelf: 'center',
+        width: '90%',
+        margin: 10,
+        padding: 10,
+        fontSize: 20,
+        borderColor: 'grey',
+        borderWidth: 0.5,
+        borderRadius: 10,
+        height: 200,
+        backgroundColor: 'white',
+        color: '#464646'
+    }   
+})
+
+const pickerStyles = StyleSheet.create({
+    inputIOS: {
+        fontSize: 20,
+        alignSelf: 'center',
+        borderWidth: 0.5,
+        borderColor: 'grey',
+        padding: 15,
+        width: '90%',
+        borderRadius: 10,
+        marginTop: 10,
+        backgroundColor: 'white',
+        color: '#464646'
+    },
+    inputAndroid: {
+        fontSize: 25,
+        alignSelf: 'center',
+        borderWidth: 0.5,
+        borderColor: 'lightgrey',
+        padding: 15,
+        width: '90%',
+        borderRadius: 10,
+        marginTop: 10,
+        backgroundColor: 'white',
+        color: '#464646'
+    }
 })

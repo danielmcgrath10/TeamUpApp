@@ -8,6 +8,28 @@ export default function groupsController({navigation}){
     const [activeGroups, setActiveGroups] = React.useState(null);
     const [requestedGroups, setRequestedGroups] = React.useState(null);
 
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerTitle: () => (
+                <Text style={styles.headerText}>
+                    Active Groups
+                </Text>
+            ),
+            headerRight: () => (
+                <TouchableOpacity 
+                    style={styles.addIcon}
+                    onPress={() => navigation.navigate('AddGroup')}    
+                >
+                    <Icon 
+                        color='black'
+                        name="ios-add"
+                        size = {40}
+                        style={{fontWeight: '800'}}
+                    />
+                </TouchableOpacity>
+            )
+        })
+    })
     React.useEffect(() => {
         if(!activeGroups){
             setActiveGroups(GroupList);
@@ -49,17 +71,6 @@ export default function groupsController({navigation}){
                         </Text>
                     </View>
             }
-            <TouchableOpacity 
-                style={styles.addIcon}
-                onPress={() => navigation.navigate('AddGroup')}    
-            >
-                <Icon 
-                    color='white'
-                    name="ios-add"
-                    size = {40}
-                    style={{fontWeight: '800'}}
-                />
-            </TouchableOpacity>
         </SafeAreaView>
     );
 }
@@ -85,16 +96,7 @@ const styles = StyleSheet.create({
         marginBottom: 2,
     },
     addIcon: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        width: 55,
-        height: 55,
-        backgroundColor: 'blue',
-        borderRadius: 100,
-        right: 20,
-        bottom: 20,
-        elevation: 10,
+        marginRight: 20
     },
     headerTextContainer: {
         marginTop: 'auto',
